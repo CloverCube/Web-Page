@@ -9,7 +9,7 @@ frontLast.addEventListener("click", frontDate);
 
 elemento2()
 function elemento2() {
-  fetch("/js/content.json")
+  fetch("../content/page/content.json")
     .then((response) => {
       if (!response.ok) throw new Error("Error al cargar el archivo JSON");
       return response.json();
@@ -47,7 +47,7 @@ function createItemHTML(content) {
 }
 
 function frontPagePop() {
-  fetch("/js/content.json")
+  fetch("../content/page/content.json")
     .then((response) => {
       if (!response.ok) throw new Error("Error al cargar el archivo JSON");
       return response.json();
@@ -68,7 +68,7 @@ function frontPagePop() {
 }
 
 function frontDate() {
-  fetch("/js/content.json")
+  fetch("../content/page/content.json")
     .then((response) => {
       if (!response.ok) throw new Error("Error al cargar el archivo JSON");
       return response.json();
