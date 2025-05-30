@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-m9H46-sBRqEbONOG2oQheLUfaE5xMn2IKA&s",
+    "titulo": "Aventura en la Galaxia",
+    "url_page": "/paginas/peliculas/ciencia-ficcion/Aventura-en-la-galaxia.html",
+    "parrafo": "Un viaje interplanetario lleno de misterios y criaturas desconocidas.",
+    "fecha_subido": "2025-05-29",
+    "likes": 152,
+    "categoria_general": "Peliculas",
+    "categoria": "Ciencia Ficción"
+  },
+  {
+    "id": 2,
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-m9H46-sBRqEbONOG2oQheLUfaE5xMn2IKA&s",
+    "titulo": "Terror en la Oscuridad",
+    "url_page": "/page/Peliculas/Terror/Terror-en-la-Oscuridad.html",
+    "parrafo": "Una historia que te hará temblar cada noche al apagar la luz.",
+    "fecha_subido": "2025-05-27",
+    "likes": 89,
+    "categoria_general": "Peliculas",
+    "categoria": "Terror"
+  },
+  {
+    "id": 3,
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-m9H46-sBRqEbONOG2oQheLUfaE5xMn2IKA&s",
+    "titulo": "Amor Bajo la Lluvia",
+    "url_page": "/page/Peliculas/Romance/Amor-Bajo-la-Lluvia.html",
+    "parrafo": "Una comedia romántica que te hará creer nuevamente en el amor.",
+    "fecha_subido": "2025-05-25",
+    "likes": 210,
+    "categoria_general": "Peliculas",
+    "categoria": "Romance"
+  },
+  {
+    "id": 4,
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-m9H46-sBRqEbONOG2oQheLUfaE5xMn2IKA&s",
+    "titulo": "La Maldición del Abismo",
+    "url_page": "/page/Series/Thriller/La-Maldicion-del-Abismo.html",
+    "parrafo": "Un thriller psicológico ambientado en un pequeño pueblo costero.",
+    "fecha_subido": "2025-05-22",
+    "likes": 134,
+    "categoria_general": "Series",
+    "categoria": "Thriller"
+  },
+  {
+    "id": 5,
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-m9H46-sBRqEbONOG2oQheLUfaE5xMn2IKA&s",
+    "titulo": "El Reino Animado",
+    "url_page": "/paginas/series/animacion/El-reino-animal.html",
+    "parrafo": "Animales parlantes, aventuras épicas y magia en cada rincón.",
+    "fecha_subido": "2025-05-20",
+    "likes": 301,
+    "categoria_general": "Series",
+    "categoria": "Animación"
+  }
+]
