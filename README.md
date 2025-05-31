@@ -9,3 +9,10 @@
     git add content
     git commit -m "Submodule Updated"
 ``` 
+
+## Install node-server (Connect to DataBase)
+
+```sh
+    npm init -y
+    npm install express mssql cors
+``` 

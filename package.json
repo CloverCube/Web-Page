@@ -1,0 +1,25 @@
+{
+  "name": "web-page",
+  "version": "1.0.0",
+  "description": "```sh\r     cd content\r     git pull origin release\r     cd ..\r     git add content\r     git commit -m \"Submodule Updated\"\r ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CloverCube/Web-Page.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CloverCube/Web-Page/issues"
+  },
+  "homepage": "https://github.com/CloverCube/Web-Page#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mssql": "^11.0.1"
+  }
+}
