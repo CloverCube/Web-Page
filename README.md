@@ -3,6 +3,13 @@
 ## Update submodule
 
 ```sh
+    git submodule init
+    git submodule update --recursive --remote
+``` 
+
+## Add Submodule (example)
+
+```sh
     cd content
     git pull origin release
     cd ..
