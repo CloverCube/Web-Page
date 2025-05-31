@@ -43,3 +43,5 @@ app.get("/api/contenidos", async (req, res) => {
 app.listen(port, () => {
     console.log(`Servidor API escuchando en http://localhost:${port}`);
 });
+
+setInterval(() => {}, 1000);
