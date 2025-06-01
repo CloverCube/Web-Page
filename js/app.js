@@ -9,6 +9,7 @@ frontLast.addEventListener("click", frontDate);
 function frontPagePop() {
     cargarContenido().then((data) => {
         const contenedor = document.getElementById("Generate");
+        
         let html = data.map(createItemHTML).join("");
         contenedor.innerHTML = html;
     });
