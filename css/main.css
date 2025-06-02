@@ -1,35 +1,145 @@
-.navbar-brand img{
-    width: 130px;
+/* Header */
+
+nav{
+  background-color: white;
 }
 
-#img-Carrusel {
-    border-radius: 20px;
-    height: 450px;
-    width: 500px;
-    object-fit:cover;
+.logo-web{
+  width: 100px;
+  height: auto;
 }
 
-#front-page-menu{
-    background-color: rgb(255, 247, 233);
-    padding: 12px;
+.logo-login{
+  width: 40px;
+  height: auto;
 }
 
-#front-page-menu button{
-    color: black;
-all: unset;}
-
-#front-page-menu button:hover{
-    color: rgb(146, 146, 146);
+h2, h3 {
+  font-family: "Roboto Condensed", sans-serif;
 }
 
-.post-Init img{
-    border-radius: 20px;
-    height: 180px;
-    width: 100%;
-    object-fit:cover;
+main{
+  padding-top: 60px;
 }
 
-#cuentaImg img{
-    width: 50px;
-    height: auto;
+/* Carrusel */
+
+#Carrusel-Inicios{
+  width: 100%;
+  height: 100px;
+}
+
+#Carrusel-Inicios h5{
+  font-size: 40px;
+  color: white;
+}
+
+#Carrusel-Inicios h5:hover{
+  color: #e5941a;
+}
+
+#Carrusel-Inicios a{
+  text-decoration: none;
+}
+
+
+#Carrusel-Inicios img{
+  border-radius: 30px;
+    object-fit: cover;
+  height: 470px;
+}
+
+.anu-front{
+  object-fit: cover;
+  width: 100%;
+  height: 79%;
+  border-radius: 20px;
+  object-position: center;
+  margin-top: 70px;
+}
+
+.Destados{
+  font-family: "Roboto Condensed", sans-serif;
+  margin-left: 12px;  
+  font-size: 50px;
+  color: black;
+}
+
+.destacados{
+  width: 100%;
+}
+
+/* Reportaje */
+
+#reportaje{
+  padding: 50px;
+  color: white;
+  background-color: #2B2B2B;
+}
+
+#reportaje h3{
+  font-size: 40px;
+}
+
+#section-report{
+  width: 100%;
+}
+
+#reportaje h3{
+  padding-left: 150px;
+}
+
+#video-report{
+  width: 80%;
+  height: 500px;
+}
+
+/*Video publicidad*/
+
+#public-video{
+  background-color: #D4D4D4;
+  margin-bottom: 40px;
+}
+
+#public-video iframe{
+  padding: 60px;
+  width: 60%;
+}
+
+/* Post */
+
+#Generate img{
+  border-radius: 15px;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+#Generate h2{
+  color: black;
+  font-size: 30px;
+}
+
+#Generate a{
+  text-decoration: none;
+}
+
+#Generate h2:hover{
+  color: #e5941a;
+}
+
+#Generate span {
+  color: #e5941a;
+}
+
+.Ultimas-notis{
+  margin-left: 30px;
+  color: black;
+  font-size: 35px;
+}
+
+.publicidad-estatica{
+  object-fit: cover;
+  width: 100%;
+  border-radius: 10px;
 }

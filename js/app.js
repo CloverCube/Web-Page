@@ -1,19 +1,4 @@
-frontPagePop();
-
-const frontPopular = document.getElementById("popular");
-const frontLast = document.getElementById("ultimos");
-
-frontPopular.addEventListener("click", frontPagePop);
-frontLast.addEventListener("click", frontDate);
-
-function frontPagePop() {
-    cargarContenido().then((data) => {
-        const contenedor = document.getElementById("Generate");
-        
-        let html = data.map(createItemHTML).join("");
-        contenedor.innerHTML = html;
-    });
-}
+frontDate();
 
 function frontDate() {
     cargarContenido().then((data) => {
@@ -60,18 +45,20 @@ async function cargarContenido() {
 
 function createItemHTML(content) {
     return `
-    <div class="row my-3">
-        <div class="col-3">
-            <img src="${content.imagen}" alt="${content.Titulo}">
-        </div>
-        <div class="col">
-            <a href="${content.url_page}"><h2>${content.Titulo}</h2></a>
-            <p>${content.parrafo}</p>
-            <span>${content.genero} | </span>
-            <span>${content.tipo} | </span>
-            <span>Likes: ${content.likes} | </span>
-            <span>Fecha: ${content.fecha_lanzamiento}</span>
-        </div>
+    <div class="row my-4 mx-1" id="articulos">
+    <div class="col-12 col-md-4 text-center mb-2">
+        <img src="${content.imagen}" alt="${content.Titulo}" class="img-fluid">
+    </div>
+    <div class="col-12 col-md-8">
+        <a href="${content.url_page}"><h2>${content.Titulo}</h2></a>
+        <p>${content.parrafo}</p>
+        <span>Genero: ${content.genero} |</span>
+        <span>Likes: ${content.likes} | </span>
+        <span>Fecha: ${content.fecha_lanzamiento}</span>
+    </div>
     </div>
   `;
 }
+
+
+
