@@ -87,7 +87,8 @@ loginForm.addEventListener('submit', async (e) => {
         const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
         modal.hide();
     } else {
-        alert(data.message || 'Error al iniciar sesión');
+        alert('Error al iniciar sesión');
+        console.error(data);
     }
 });
 
@@ -110,7 +111,8 @@ registerForm.addEventListener('submit', async (e) => {
         const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
         modal.hide();
     } else {
-        alert(data.message || 'Error al registrarse');
+        alert('Error al registrarse');
+        console.error(data);
     }
 });
 
