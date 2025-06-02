@@ -65,6 +65,11 @@ function createItemHTML(content) {
 const loginForm = document.getElementById('loginForm');
 const registerForm = document.getElementById('registerForm');
 
+const modalElement = document.getElementById('loginModal');
+const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+
+modal.hide();
+
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
@@ -80,8 +85,12 @@ loginForm.addEventListener('submit', async (e) => {
     if (res.ok) {
         alert(data.message);
         console.log(data.usuario);
+
+        const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
+        modal.hide();
     } else {
-        alert(data.message || 'Error al iniciar sesión');
+        alert('Error al iniciar sesión');
+        console.error(data);
     }
 });
 
@@ -100,9 +109,12 @@ registerForm.addEventListener('submit', async (e) => {
     const data = await res.json();
     if (res.ok) {
         alert(data.message);
-        mostrarLogin();
+
+        const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
+        modal.hide();
     } else {
-        alert(data.message || 'Error al registrarse');
+        alert('Error al registrarse');
+        console.error(data);
     }
 });
 
