@@ -11,6 +11,8 @@ function frontDate() {
     });
 }
 
+
+
 async function cargarContenido() {
     try {
         const resAPI = await fetch("http://localhost:3000/api/contenidos");
