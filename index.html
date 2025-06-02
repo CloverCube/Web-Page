@@ -42,10 +42,8 @@
                         </button>
 
                         <!-- Icono de login (visible siempre, fuera del collapse) -->
-                        <a href="/login.html" class="nav-link d-lg-none">
-                            <img class="logo-login" src="https://cdn-icons-png.flaticon.com/128/16/16612.png"
-                                 alt="Logo para iniciar sesión"
-                                 class="login-icon">
+                        <a href="javascript:void(0)" class="nav-link d-lg-none" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <img class="logo-login" src="https://cdn-icons-png.flaticon.com/128/16/16612.png" alt="Logo para iniciar sesión">
                         </a>
 
                         <!-- Contenido del navbar -->
@@ -65,10 +63,8 @@
 
                             <!-- Icono de login para pantallas grandes -->
                             <div class="d-none d-lg-flex">
-                                <a href="/login.html" id="cuentaImg" class="nav-link">
-                                    <img class="logo-login" src="https://cdn-icons-png.flaticon.com/128/16/16612.png"
-                                         alt="Logo para iniciar sesión"
-                                         class="login-icon">
+                                <a href="javascript:void(0)" id="cuentaImg" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    <img class="logo-login" src="https://cdn-icons-png.flaticon.com/128/16/16612.png" alt="Logo para iniciar sesión">
                                 </a>
                             </div>
                         </div>
@@ -183,6 +179,48 @@
 
 </footer>
 <!-- footer -->
+
+<!-- login emergent -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4 rounded-4 shadow-lg">
+            <h2 class="text-center mb-3" id="formTitle">Iniciar Sesión</h2>
+
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="email" required />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Entrar</button>
+            </form>
+
+            <form id="registerForm" class="d-none">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" required />
+                </div>
+                <div class="mb-3">
+                    <label for="emailRegister" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="emailRegister" required />
+                </div>
+                <div class="mb-3">
+                    <label for="passwordRegister" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="passwordRegister" required />
+                </div>
+                <button type="submit" class="btn btn-success w-100">Registrarse</button>
+            </form>
+
+            <hr />
+            <div class="text-center" id="switchText">
+                <p>¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Regístrate</a></p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- js scripts -->
 <script src="bootstrap/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
