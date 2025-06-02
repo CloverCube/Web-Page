@@ -46,10 +46,10 @@ async function cargarContenido() {
 function createItemHTML(content) {
     return `
     <div class="row my-4 mx-1" id="articulos">
-    <div class="col-12 col-md-4 text-center mb-2">
+    <div class="col-12 col-md-3 text-center mb-2">
         <img src="${content.imagen}" alt="${content.Titulo}" class="img-fluid">
     </div>
-    <div class="col-12 col-md-8">
+    <div class="col-md-8">
         <a href="${content.url_page}"><h2>${content.Titulo}</h2></a>
         <p>${content.parrafo}</p>
         <span>Genero: ${content.genero} |</span>
