@@ -55,7 +55,10 @@ main{
   height: 79%;
   border-radius: 20px;
   object-position: center;
-  margin-top: 70px;
+}
+
+#sonyPublicidad{
+  margin-top: 40px;
 }
 
 .Destados{
@@ -80,6 +83,11 @@ main{
     width: 100%;
     
   }
+
+  #sonyPublicidad{
+  margin-top: 55px;
+}
+
   #Carrusel-Inicios h5{
     font-size: 20px;
     color: white;
@@ -156,10 +164,28 @@ padding-bottom: 40px;
   width: 60%;
 }
 
+.videoPublis{
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(135deg, #ff073a, #ff6b35, #e91e63);
+  padding: 20px 50px;
+  width: 50px;
+  height: auto;
+  border-radius: 10px;
+  margin-left: 42%;
+}
+
 @media (max-width: 600px) {
   #public-video iframe{
   padding: 40px;
   width: 100%;
+}
+.videoPublis{
+  width: 17px;
+  margin-left: 100px;
+  padding: 15px 20px;
+
+
 }
 }
 
@@ -201,12 +227,20 @@ padding-bottom: 40px;
   border-radius: 10px;
 }
 
+#publicidad-notes{
+  width: 800px;
+}
+
 @media (max-width: 600px) {
 
     .publicidad-estatica{
       margin-top: 30px;
+      width: 40%;
     }
-
+    #publicidad-notes{
+  width: 100%;
+  font-size: 15px;
+}
 }
 
 .center-box {
