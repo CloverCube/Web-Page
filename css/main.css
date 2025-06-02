@@ -69,6 +69,37 @@ main{
   width: 100%;
 }
 
+@media (max-width: 600px) {
+  #Carrusel-Inicios img{
+  height: 200px;
+}
+  #Carrusel-Inicios{
+    margin-bottom: 60px;
+}
+  .anu-front{
+    width: 100%;
+    
+  }
+  #Carrusel-Inicios h5{
+    font-size: 20px;
+    color: white;
+  }
+
+  #Carrusel-Inicios p{
+    font-size: 10px;
+  }
+
+  .Destados{
+  font-size: 40px;
+}
+
+#movil-use-front{
+
+height: 200px;
+padding-bottom: 40px;
+
+}
+}
 /* Reportaje */
 
 #reportaje{
@@ -94,6 +125,25 @@ main{
   height: 500px;
 }
 
+@media (max-width: 600px){
+  #reportaje h3{
+    padding-left: 20px;
+    font-size: 30px;
+}
+#video-report{
+  width: 100%;
+  height: auto;
+}
+#reportaje{
+  padding: 30px 30px;
+}
+
+#reportaje iframe{
+  width: 95%;
+}
+
+}
+
 /*Video publicidad*/
 
 #public-video{
@@ -104,6 +154,13 @@ main{
 #public-video iframe{
   padding: 60px;
   width: 60%;
+}
+
+@media (max-width: 600px) {
+  #public-video iframe{
+  padding: 40px;
+  width: 100%;
+}
 }
 
 /* Post */
@@ -143,3 +200,13 @@ main{
   width: 100%;
   border-radius: 10px;
 }
+
+@media (max-width: 600px) {
+
+    .publicidad-estatica{
+      margin-top: 30px;
+    }
+
+}
+
+
