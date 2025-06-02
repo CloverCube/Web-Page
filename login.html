@@ -8,100 +8,49 @@
     <meta name="description" content="Reseñas de video juegos y peliculas, Pixel y Frame">
     <title>Pixel & Frame</title>
     <!-- href -->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="assets/fonts/fonts.css">
 
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 </head>
 <body>
-<!-- =========== -->
-<header>
-    <!-- Navbar principal -->
-    <div class="container">
-        <div class="row">
-            <div class="col-9">
-                <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                    <div class="container-fluid">
-                        <!-- Marca o logo de la barra de navegación -->
-                        <a class="navbar-brand" href="#">
-                            <img src="assets/img/pyf-logo.png" alt="Logo de página">
-                        </a>
-                    </div>
-                </nav>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="center-box">
+        <h2 class="text-center mb-4" id="formTitle">Iniciar Sesión</h2>
+        <form id="loginForm">
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" required />
             </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Entrar</button>
+        </form>
+
+        <form id="registerForm" class="d-none">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" required />
+            </div>
+            <div class="mb-3">
+                <label for="emailRegister" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="emailRegister" required />
+            </div>
+            <div class="mb-3">
+                <label for="passwordRegister" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="passwordRegister" required />
+            </div>
+            <button type="submit" class="btn btn-success w-100">Registrarse</button>
+        </form>
+
+        <hr />
+        <div class="text-center" id="switchText">
+            <p>¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Regístrate</a></p>
         </div>
     </div>
-
-</header>
-<!-- header -->
-<!-- =========== -->
-<!-- main -->
-<main>
-    <p class="d-inline-flex gap-1">
-        <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#registroAccordion" data-bs-parent="#accordionAuth">
-            Registro
-        </button>
-        <button class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#inicioSesionAccordion" data-bs-parent="#accordionAuth">
-            Inicio Sesión
-        </button>
-    </p>
-
-    <!-- Accordion Container -->
-    <div class="accordion mb-4" id="accordionAuth">
-        <div class="collapse" id="registroAccordion" data-bs-parent="#accordionAuth">
-            <div class="card card-body">
-                <h5 class="card-title">Formulario de Registro</h5>
-
-                <!-- FORMULARIO DE REGISTRO -->
-                <form id="formularioRegistro">
-                    <div class="mb-3">
-                        <label for="nombreRegistro" class="form-label">Nombre completo</label>
-                        <input type="text" class="form-control" id="nombreRegistro" placeholder="Ingresa tu nombre" name="Nombre registro ">
-                    </div>
-                    <div class="mb-3">
-                        <label for="emailRegistro" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="emailRegistro" placeholder="tu@email.com" name="Correo registro ">
-                    </div>
-                    <div class="mb-3">
-                        <label for="passwordRegistro" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="passwordRegistro" placeholder="Contraseña" name="Contraseña registro ">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Registrarse</button>
-                </form>
-                <!-- FIN -->
-            </div>
-        </div>
-
-        <div class="collapse" id="inicioSesionAccordion" data-bs-parent="#accordionAuth">
-            <div class="card card-body">
-                <h5 class="card-title">Iniciar Sesión</h5>
-                <!-- FORMULARIO INICIAR SESION -->
-                <form id="formularioLogin">
-                    <div class="mb-3">
-                        <label for="emailLogin" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="emailLogin" placeholder="tu@email.com" name="Nombre Cuenta ">
-                    </div>
-                    <div class="mb-3">
-                        <label for="passwordLogin" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="passwordLogin" placeholder="Contraseña" name="Contraseña Cuenta ">
-                    </div>
-                    <button type="submit" class="btn btn-success">Iniciar Sesión</button>
-                </form>
-                <!--FIN-->
-            </div>
-        </div>
-    </div>
-
-    <div id="loginResultado" style="margin-top: 10px; font-weight: bold;"></div>
-</main>
-
-<!-- main -->
-<!-- =========== -->
-<!-- footer -->
-
-<footer>
-
-</footer>
+</div>
 <!-- footer -->
 
 <!-- js scripts -->

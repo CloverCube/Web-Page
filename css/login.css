@@ -1,0 +1,14 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(to right, #402e1f, #f2c699);
+}
+.center-box {
+    max-width: 400px;
+    width: 100%;
+    padding: 2rem;
+    border-radius: 1rem;
+    background-color: white;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}

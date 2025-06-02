@@ -42,6 +42,22 @@ app.get("/api/contenidos", async (req, res) => {
 
 app.use(express.json());
 
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = "esto_es_una_clave_jwt_para_guardar_login";
+
+function autenticarToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader?.split(' ')[1];
+
+    if (!token) return res.status(401).json({ message: "Token no proporcionado" });
+
+    jwt.verify(token, JWT_SECRET, (err, usuario) => {
+        if (err) return res.status(403).json({ message: "Token inválido" });
+        req.usuario = usuario;
+        next();
+    });
+}
+
 app.post("/api/register", async (req, res) => {
     const { nombre, email, contrasena } = req.body;
 
@@ -58,7 +74,27 @@ app.post("/api/register", async (req, res) => {
             VALUES (${nombre}, ${email}, ${contrasena})
         `;
 
-        res.json({ message: "Registro exitoso" });
+        const result = await sql.query`
+            SELECT * FROM Usuarios WHERE Correo = ${email} AND Contrasena = ${contrasena}
+        `;
+
+        if (result.recordset.length === 0) {
+            return res.status(401).json({ message: "Credenciales inválidas" });
+        }
+
+        const usuario = result.recordset[0];
+
+        const token = jwt.sign(
+            {
+                usuarioId: usuario.UsuarioID,
+                nombre: usuario.NombreUsuario,
+                email: usuario.Correo
+            },
+            JWT_SECRET,
+            { expiresIn: "2h" }
+        );
+
+        res.json({ message: "Registro exitoso", token });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Error en servidor" });
@@ -78,7 +114,19 @@ app.post("/api/login", async (req, res) => {
             return res.status(401).json({ message: "Credenciales inválidas" });
         }
 
-        res.json({ message: "Inicio de sesión exitoso", usuario: result.recordset[0] });
+        const usuario = result.recordset[0];
+
+        const token = jwt.sign(
+            {
+                usuarioId: usuario.UsuarioID,
+                nombre: usuario.NombreUsuario,
+                email: usuario.Correo
+            },
+            JWT_SECRET,
+            { expiresIn: "2h" }
+        );
+
+        res.json({ message: "Inicio de sesión exitoso", token });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Error en servidor" });
