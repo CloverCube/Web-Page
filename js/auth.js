@@ -1,7 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("token");
+
     if (!token) {
-        alert("Debes iniciar sesión para acceder a esta página.");
-        window.location.href = "/login.html";
+        const loginModalElement = document.getElementById("loginModal");
+        if (loginModalElement) {
+            const loginModal = new bootstrap.Modal(loginModalElement);
+            loginModal.show();
+        }
     }
 });
