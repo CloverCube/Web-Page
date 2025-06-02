@@ -61,4 +61,3 @@ function createItemHTML(content) {
 }
 
 
-

@@ -1,62 +1,61 @@
-document.getElementById("formularioRegistro").addEventListener("submit", async (e) => {
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
+
+loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const email = document.getElementById('email').value;
+    const contrasena = document.getElementById('password').value;
 
-    const nombre = document.getElementById("nombreRegistro").value;
-    const email = document.getElementById("emailRegistro").value;
-    const password = document.getElementById("passwordRegistro").value;
+    const res = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, contrasena })
+    });
 
-    try {
-        const res = await fetch("http://localhost:3000/api/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ nombre, email, contrasena: password }),
-        });
-
-        const data = await res.json();
+    const data = await res.json();
+    if (res.ok) {
         alert(data.message);
-
-        if (res.ok) {
-            const usuario = data.usuario;
-            document.getElementById('loginResultado').innerText =
-                `Has iniciado sesión como ${usuario.NombreUsuario}, correo: ${usuario.Correo}`;
-        } else {
-            document.getElementById('loginResultado').innerText = data.message;
-
-            document.getElementById("loginResultado").reset();
-        }
-    } catch (err) {
-        alert("Error en el registro");
-        console.error(err);
+        console.log(data.usuario);
+    } else {
+        alert(data.message || 'Error al iniciar sesión');
     }
 });
 
-document.getElementById("formularioLogin").addEventListener("submit", async (e) => {
+registerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    const email = document.getElementById('emailRegister').value;
+    const contrasena = document.getElementById('passwordRegister').value;
 
-    const email = document.getElementById("emailLogin").value;
-    const password = document.getElementById("passwordLogin").value;
+    const res = await fetch('http://localhost:3000/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, email, contrasena })
+    });
 
-    try {
-        const res = await fetch("http://localhost:3000/api/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, contrasena: password }),
-        });
-
-        const data = await res.json();
+    const data = await res.json();
+    if (res.ok) {
         alert(data.message);
-
-        console.log(data);
-
-        if (res.ok) {
-            const usuario = data.usuario;
-            document.getElementById('loginResultado').innerText =
-                `Has iniciado sesión como ${usuario.NombreUsuario}, correo: ${usuario.Correo}`;
-        } else {
-            document.getElementById('loginResultado').innerText = data.message;
-        }
-    } catch (err) {
-        alert("Error en el inicio de sesión");
-        console.error(err);
+        mostrarLogin();
+    } else {
+        alert(data.message || 'Error al registrarse');
     }
 });
+
+function mostrarRegistro() {
+    loginForm.classList.add('d-none');
+    registerForm.classList.remove('d-none');
+    document.getElementById('formTitle').innerText = 'Registrarse';
+    document.getElementById('switchText').innerHTML = `
+        <p>¿Ya tienes cuenta? <a href="#" onclick="mostrarLogin()">Inicia sesión</a></p>
+      `;
+}
+
+function mostrarLogin() {
+    registerForm.classList.add('d-none');
+    loginForm.classList.remove('d-none');
+    document.getElementById('formTitle').innerText = 'Iniciar Sesión';
+    document.getElementById('switchText').innerHTML = `
+        <p>¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Regístrate</a></p>
+      `;
+}
