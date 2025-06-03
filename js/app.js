@@ -11,8 +11,6 @@ function frontDate() {
     });
 }
 
-
-
 async function cargarContenido() {
     try {
         const resAPI = await fetch("http://localhost:3000/api/contenidos");
@@ -82,12 +80,17 @@ loginForm.addEventListener('submit', async (e) => {
     });
 
     const data = await res.json();
-    if (res.ok) {
+    if (res.ok && data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
         alert(data.message);
         console.log(data.usuario);
 
         const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
         modal.hide();
+
+        location.reload();
     } else {
         alert('Error al iniciar sesión');
         console.error(data);
@@ -107,11 +110,16 @@ registerForm.addEventListener('submit', async (e) => {
     });
 
     const data = await res.json();
-    if (res.ok) {
+    if (res.ok && data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
         alert(data.message);
 
         const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
         modal.hide();
+
+        location.reload();
     } else {
         alert('Error al registrarse');
         console.error(data);
@@ -136,4 +144,17 @@ function mostrarLogin() {
       `;
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
 
+    if (usuario && usuario.NombreUsuario) {
+        const usernameMobile = document.getElementById("usernameMobile");
+        const usernameDesktop = document.getElementById("usernameDesktop");
+
+        usernameMobile.textContent = usuario.NombreUsuario;
+        usernameMobile.classList.remove("d-none");
+
+        usernameDesktop.textContent = usuario.NombreUsuario;
+        usernameDesktop.classList.remove("d-none");
+    }
+});

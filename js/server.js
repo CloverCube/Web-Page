@@ -94,7 +94,11 @@ app.post("/api/register", async (req, res) => {
             { expiresIn: "2h" }
         );
 
-        res.json({ message: "Registro exitoso", token });
+        res.json({ message: "Registro exitoso", token, usuario: {
+                UsuarioID: usuario.UsuarioID,
+                NombreUsuario: usuario.NombreUsuario,
+                Correo: usuario.Correo
+            }});
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Error en servidor" });
@@ -126,7 +130,11 @@ app.post("/api/login", async (req, res) => {
             { expiresIn: "2h" }
         );
 
-        res.json({ message: "Inicio de sesión exitoso", token });
+        res.json({ message: "Inicio de sesión exitoso", token, usuario: {
+                UsuarioID: usuario.UsuarioID,
+                NombreUsuario: usuario.NombreUsuario,
+                Correo: usuario.Correo
+            }});
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Error en servidor" });
