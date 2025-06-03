@@ -1,5 +1,7 @@
 # Web-Page
 
+Esto es un proyecto para prueba/testeo, no esta hecho para que este en produccion ni mucho menos para el uso de "algo", solo es para aprendizaje de unos amigos. Si lo va a usar, es licencia libre, usalo como desees, no nos hacemos responsable del mal uso de este
+
 ## Update submodule
 
 ```sh
@@ -66,6 +68,16 @@ Proteger una consulta desde el backend server.js:
     app.get("/api/contenidos", autenticarToken, async (req, res) => {
         // ...
     });
+```
+
+Proteger acciones
+
+```js
+    //function for protect action
+    function usuarioAutenticado() {
+        const token = localStorage.getItem("token");
+        return token !== null;
+    }
 ```
 
 Incluir sitios protegidos y que sea requerido iniciar sesion:

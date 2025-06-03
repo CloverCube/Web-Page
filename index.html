@@ -42,9 +42,13 @@
                         </button>
 
                         <!-- Icono de login (visible siempre, fuera del collapse) -->
-                        <a href="javascript:void(0)" class="nav-link d-lg-none" data-bs-toggle="modal" data-bs-target="#loginModal">
-                            <img class="logo-login" src="https://cdn-icons-png.flaticon.com/128/16/16612.png" alt="Logo para iniciar sesión">
-                        </a>
+                        <div class="d-flex d-lg-none align-items-center">
+                            <a href="javascript:void(0)" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <img class="logo-login" src="https://cdn-icons-png.flaticon.com/128/16/16612.png" alt="Logo para iniciar sesión">
+                            </a>
+                            <span id="usernameMobile" class="ms-2 text-black fw-bold d-none"></span>
+                            <button id="logoutMobile" class="btn btn-outline-danger btn-sm ms-2 d-none">Cerrar sesión</button>
+                        </div>
 
                         <!-- Contenido del navbar -->
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -62,10 +66,12 @@
                             </ul>
 
                             <!-- Icono de login para pantallas grandes -->
-                            <div class="d-none d-lg-flex">
+                            <div class="d-none d-lg-flex align-items-center">
                                 <a href="javascript:void(0)" id="cuentaImg" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">
                                     <img class="logo-login" src="https://cdn-icons-png.flaticon.com/128/16/16612.png" alt="Logo para iniciar sesión">
                                 </a>
+                                <span id="usernameDesktop" class="d-none ms-2 text-black fw-bold"></span>
+                                <button id="logoutDesktop" class="btn btn-outline-danger btn-sm ms-2 d-none">Cerrar sesión</button>
                             </div>
                         </div>
                     </div>
@@ -79,6 +85,7 @@
 <!-- main -->
 
 <main>
+    <p></p>
     <section class="destacados py-4" id="resposive-element-carrusel">
         <div class="container">
             <div class="row">

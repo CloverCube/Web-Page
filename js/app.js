@@ -112,12 +112,17 @@ loginForm.addEventListener('submit', async (e) => {
     });
 
     const data = await res.json();
-    if (res.ok) {
+    if (res.ok && data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
         alert(data.message);
         console.log(data.usuario);
 
         const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
         modal.hide();
+
+        location.reload();
     } else {
         alert('Error al iniciar sesión');
         console.error(data);
@@ -137,11 +142,16 @@ registerForm.addEventListener('submit', async (e) => {
     });
 
     const data = await res.json();
-    if (res.ok) {
+    if (res.ok && data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
         alert(data.message);
 
         const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
         modal.hide();
+
+        location.reload();
     } else {
         alert('Error al registrarse');
         console.error(data);
@@ -149,6 +159,14 @@ registerForm.addEventListener('submit', async (e) => {
 });
 
 function mostrarRegistro() {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+    if (usuario && usuario.NombreUsuario) {
+        window.location.href = "perfil.html";
+
+        return;
+    }
+
     loginForm.classList.add('d-none');
     registerForm.classList.remove('d-none');
     document.getElementById('formTitle').innerText = 'Registrarse';
@@ -158,6 +176,14 @@ function mostrarRegistro() {
 }
 
 function mostrarLogin() {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+    if (usuario && usuario.NombreUsuario) {
+        window.location.href = "perfil.html";
+
+        return;
+    }
+
     registerForm.classList.add('d-none');
     loginForm.classList.remove('d-none');
     document.getElementById('formTitle').innerText = 'Iniciar Sesión';
@@ -166,4 +192,41 @@ function mostrarLogin() {
       `;
 }
 
+const loginModalElement = document.getElementById("loginModal");
+if (loginModalElement) {
+    loginModalElement.addEventListener('show.bs.modal', function (event) {
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        if (usuario && usuario.NombreUsuario) {
+            event.preventDefault();
 
+            window.location.href = "perfil.html";
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+    if (usuario && usuario.NombreUsuario) {
+        const usernameMobile = document.getElementById("usernameMobile");
+        const usernameDesktop = document.getElementById("usernameDesktop");
+
+        usernameMobile.textContent = usuario.NombreUsuario;
+        usernameMobile.classList.remove("d-none");
+
+        usernameDesktop.textContent = usuario.NombreUsuario;
+        usernameDesktop.classList.remove("d-none");
+
+        document.getElementById("logoutMobile").classList.remove("d-none");
+        document.getElementById("logoutDesktop").classList.remove("d-none");
+    }
+});
+
+document.getElementById("logoutMobile").addEventListener("click", cerrarSesion);
+document.getElementById("logoutDesktop").addEventListener("click", cerrarSesion);
+
+function cerrarSesion() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+    location.reload();
+}
