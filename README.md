@@ -68,6 +68,16 @@ Proteger una consulta desde el backend server.js:
     });
 ```
 
+Proteger acciones
+
+```js
+    //function for protect action
+    function usuarioAutenticado() {
+        const token = localStorage.getItem("token");
+        return token !== null;
+    }
+```
+
 Incluir sitios protegidos y que sea requerido iniciar sesion:
 
 ```html
