@@ -1,4 +1,6 @@
 frontDate();
+pelicula_General();
+videojuegos_General();
 
 function frontDate() {
     cargarContenido().then((data) => {
@@ -10,8 +12,35 @@ function frontDate() {
         contenedor.innerHTML = html;
     });
 }
+function pelicula_General() {
+    cargarContenido().then((data) => {
+        console.log(data)
+        const contenedor = document.getElementById("peliculas");
+        const filtro = data.filter(filtro => filtro.categoria_general === "Peliculas")
+        filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
+        let html = filtro.map(createItemHTML).join("");
+        contenedor.innerHTML = html;
+})}
 
+function series_General() {
+    cargarContenido().then((data) => {
+        console.log(data)
+        const contenedor = document.getElementById("series");
+        const filtro = data.filter(filtro => filtro.categoria_general === "Series")
+        filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
+        let html = filtro.map(createItemHTML).join("");
+        contenedor.innerHTML = html;
+})}
 
+function videojuegos_General() {
+    cargarContenido().then((data) => {
+        console.log(data)
+        const contenedor = document.getElementById("videojuegos");
+        const filtro = data.filter(filtro => filtro.categoria_general === "Videojuegos")
+        filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
+        let html = filtro.map(createItemHTML).join("");
+        contenedor.innerHTML = html;
+})}
 
 async function cargarContenido() {
     try {
@@ -19,7 +48,7 @@ async function cargarContenido() {
         if (!resAPI.ok) throw new Error("API no disponible");
         const contenidosBD = await resAPI.json();
 
-        const resJSON = await fetch("../content/page/content.json");
+        const resJSON = await fetch("/content/page/content.json");
         if (!resJSON.ok) throw new Error("JSON local no disponible");
         const contenidosJSON = await resJSON.json();
 
@@ -35,6 +64,7 @@ async function cargarContenido() {
                 url_page: match?.url_page || "#",
                 parrafo: match?.parrafo || "",
                 likes: match?.likes || 0,
+                categoria_general: match?.categoria_general || "",
             };
         });
 

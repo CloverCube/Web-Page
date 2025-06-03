@@ -9,12 +9,11 @@
     <title>Pixel & Frame</title>
     <!-- href -->
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
 
-    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet" crossorigin="anonymous" />
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
     <script src="/js/app.js" defer></script>
-        <script src="/js/pp.js" defer></script>
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
     </style>
@@ -33,7 +32,7 @@
                     <div class="container-fluid">
                         <!-- Logo -->
                         <a class="navbar-brand" href="/index.html">
-                            <img class="logo-web" src="/assets/img/pyf-logo.png" alt="Logo de página" height="40">
+                            <img class="logo-web" src="assets/img/pyf-logo.png" alt="Logo de página" height="40">
                         </a>
 
                         <!-- Botón hamburguesa para móviles -->
@@ -52,13 +51,13 @@
                             <!-- Enlaces de navegación -->
                             <ul class="navbar-nav me-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link text-black mx-2" href="#">Videojuegos</a>
+                                    <a class="nav-link text-black mx-2" href="/paginas/videojuegos/videojuegos-index.html">Videojuegos</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-black mx-2" href="paginas/peliculas/">Películas</a>
+                                    <a class="nav-link text-black mx-2" href="/paginas/peliculas/peliculas-index.html">Películas</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-black mx-2" href="#">Series</a>
+                                    <a class="nav-link text-black mx-2" href="/paginas/series/series-index.html">Series</a>
                                 </li>
                             </ul>
 
@@ -81,8 +80,11 @@
 
 <main>
 
-    <div id="post-pelicula" ></div>
-    
+    <div class="row">
+        <div class="col-1-sm" id="post-col" >
+            <div class="container my-4" id="videojuegos"></div>
+        </div>
+    </div>  
 </main>
 
 <!-- main -->
@@ -105,6 +107,8 @@
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content p-4 rounded-4 shadow-lg">
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+
             <h2 class="text-center mb-3" id="formTitle">Iniciar Sesión</h2>
 
             <form id="loginForm">
@@ -144,7 +148,7 @@
 </div>
 
 <!-- js scripts -->
-<script src="bootstrap/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="/bootstrap/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
 
