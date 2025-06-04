@@ -23,7 +23,6 @@ nav{
   color: #e5941a;
 }
 
-
 .nav-item a{
   color: black;
 }
@@ -69,7 +68,7 @@ main{
 
 #Carrusel-Inicios img{
   border-radius: 30px;
-    object-fit: cover;
+  object-fit: cover;
   height: auto;
 }
 
@@ -87,7 +86,7 @@ main{
 
 .Destados{
   font-family: "Roboto Condensed", sans-serif;
-  margin-left: 12px;  
+  margin-left: 12px;
   font-size: 50px;
   color: black;
 }
@@ -103,20 +102,20 @@ main{
   }
 
   #Carrusel-Inicios img{
-  height: 200px;
-}
+    height: 200px;
+  }
   #Carrusel-Inicios{
     margin-bottom: 60px;
-}
+  }
   .anu-front{
     width: 100%;
     height: 200px;
-    
+
   }
 
   #sonyPublicidad{
-  margin-top: 55px;
-}
+    margin-top: 55px;
+  }
 
   #Carrusel-Inicios h5{
     font-size: 20px;
@@ -128,15 +127,15 @@ main{
   }
 
   .Destados{
-  font-size: 40px;
-}
+    font-size: 40px;
+  }
 
-#movil-use-front{
+  #movil-use-front{
 
-height: 200px;
-padding-bottom: 40px;
+    height: 200px;
+    padding-bottom: 40px;
 
-}
+  }
 }
 /* Reportaje */
 
@@ -167,26 +166,26 @@ padding-bottom: 40px;
   #reportaje h3{
     padding-left: 20px;
     font-size: 30px;
-}
-#video-report{
-  width: 100%;
-  height: 300px;
-}
-#reportaje{
-  padding: 50px 50px;
-}
+  }
+  #video-report{
+    width: 100%;
+    height: 300px;
+  }
+  #reportaje{
+    padding: 50px 50px;
+  }
 
-#reportaje iframe{
-  width: 95%;
-}
+  #reportaje iframe{
+    width: 95%;
+  }
 
 }
 
 @media (max-width: 560px){
   #video-report{
-  width: 100%;
-  height: auto;
-}
+    width: 100%;
+    height: auto;
+  }
 }
 
 /*Video publicidad*/
@@ -214,22 +213,22 @@ padding-bottom: 40px;
 
 @media (max-width: 600px) {
   #public-video iframe{
-  width: 100%;
-  height: auto;
-}
+    width: 100%;
+    height: auto;
+  }
 
-.videoPublis{
-  padding: 15px 20px;
-}
+  .videoPublis{
+    padding: 15px 20px;
+  }
 
-#reportaje{
-  padding: 10px;
-}
+  #reportaje{
+    padding: 10px;
+  }
 
-#public-video{
-  background-color: #D4D4D4;
-  margin-bottom: 30px;
-}
+  #public-video{
+    background-color: #D4D4D4;
+    margin-bottom: 30px;
+  }
 }
 
 /* Post */
@@ -276,14 +275,14 @@ padding-bottom: 40px;
 
 @media (max-width: 600px) {
 
-    .publicidad-estatica{
-      margin-top: 30px;
-      width: 40%;
-    }
-    #publicidad-notes{
-  width: 100%;
-  font-size: 15px;
-}
+  .publicidad-estatica{
+    margin-top: 30px;
+    width: 40%;
+  }
+  #publicidad-notes{
+    width: 100%;
+    font-size: 15px;
+  }
 }
 
 .center-box {
