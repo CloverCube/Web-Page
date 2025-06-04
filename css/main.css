@@ -47,9 +47,11 @@ main{
 
 /* Carrusel */
 
-#Carrusel-Inicios{
-  width: 100%;
-  height: 100px;
+@media (min-width: 992px) {
+  #Carrusel-Inicios {
+    width: 100%;
+    height: 500px;
+  }
 }
 
 #Carrusel-Inicios h5{
@@ -69,7 +71,7 @@ main{
 #Carrusel-Inicios img{
   border-radius: 30px;
   object-fit: cover;
-  height: auto;
+  height: 500px;
 }
 
 .anu-front{
@@ -96,17 +98,14 @@ main{
 }
 
 @media (max-width: 992px) {
-
   #resposive-element-carrusel{
-    height: 600px;
+    height: 850px;
   }
 
   #Carrusel-Inicios img{
     height: 200px;
   }
-  #Carrusel-Inicios{
-    margin-bottom: 60px;
-  }
+
   .anu-front{
     width: 100%;
     height: 200px;
