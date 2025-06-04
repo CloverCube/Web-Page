@@ -1,14 +1,49 @@
 frontDate();
 
 function frontDate() {
-    cargarContenido().then((data) => {
-        const contenedor = document.getElementById("Generate");
+    const home = document.getElementById("Content-Home");
+    const peliculas = document.getElementById("Content-Peliculas");
+    const series = document.getElementById("Content-Series");
+    const videojuegos = document.getElementById("Content-Videojuegos");
 
-        data.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
+    if (home) {
+        cargarContenido().then((data) => {
+            const contenedor = document.getElementById("Generate");
 
-        let html = data.map(createItemHTML).join("");
-        contenedor.innerHTML = html;
-    });
+            data.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
+
+            let html = data.map(createItemHTML).join("");
+            contenedor.innerHTML = html;
+        });
+    } else if (peliculas) {
+        cargarContenido().then((data) => {
+            const filtro = data.filter(filtro => filtro.categoria_general === "Peliculas")
+            filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
+
+            let html = filtro.map(createItemHTML).join("");
+
+            peliculas.innerHTML = html;
+        })
+    } else if (series) {
+        cargarContenido().then((data) => {
+            const filtro = data.filter(filtro => filtro.categoria_general === "Series")
+            filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
+
+            let html = filtro.map(createItemHTML).join("");
+
+            series.innerHTML = html;
+        })
+    } else if (videojuegos) {
+        cargarContenido().then((data) => {
+            const filtro = data.filter(filtro => filtro.categoria_general === "Videojuegos")
+            filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
+
+            let html = filtro.map(createItemHTML).join("");
+
+            videojuegos.innerHTML = html;
+        })
+    }
+
 }
 
 async function cargarContenido() {
@@ -173,6 +208,12 @@ if (loginModalElement) {
     });
 }
 
+function cerrarSesion() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+    location.reload();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const navbarPlaceholder = document.getElementById("navbar-placeholder");
 
@@ -181,6 +222,9 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(res => res.text())
             .then(html => {
                 navbarPlaceholder.innerHTML = html;
+
+                document.getElementById("logoutMobile").addEventListener("click", cerrarSesion);
+                document.getElementById("logoutDesktop").addEventListener("click", cerrarSesion);
 
                 const usuario = JSON.parse(localStorage.getItem("usuario"));
 
@@ -200,12 +244,3 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 });
-
-document.getElementById("logoutMobile").addEventListener("click", cerrarSesion);
-document.getElementById("logoutDesktop").addEventListener("click", cerrarSesion);
-
-function cerrarSesion() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("usuario");
-    location.reload();
-}
