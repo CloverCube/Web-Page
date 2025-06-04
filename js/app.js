@@ -8,16 +8,15 @@ function frontDate() {
 
     if (home) {
         cargarContenido().then((data) => {
-            const contenedor = document.getElementById("Generate");
-
             data.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
 
             let html = data.map(createItemHTML).join("");
-            contenedor.innerHTML = html;
+            home.innerHTML = html;
         });
     } else if (peliculas) {
         cargarContenido().then((data) => {
             const filtro = data.filter(filtro => filtro.categoria_general === "Peliculas")
+            
             filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
 
             let html = filtro.map(createItemHTML).join("");
