@@ -11,6 +11,22 @@ nav{
   padding: 5rem 0;
 }
 
+.nav-link i {
+  color: black;
+}
+
+.nav-link i:hover {
+  color: #e5941a;
+}
+
+.nav-item a:hover{
+  color: #e5941a;
+}
+
+
+.nav-item a{
+  color: black;
+}
 
 .logo-web{
   width: 100px;
