@@ -1,6 +1,4 @@
 frontDate();
-pelicula_General();
-videojuegos_General();
 
 function frontDate() {
     cargarContenido().then((data) => {
@@ -12,35 +10,6 @@ function frontDate() {
         contenedor.innerHTML = html;
     });
 }
-function pelicula_General() {
-    cargarContenido().then((data) => {
-        console.log(data)
-        const contenedor = document.getElementById("peliculas");
-        const filtro = data.filter(filtro => filtro.categoria_general === "Peliculas")
-        filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
-        let html = filtro.map(createItemHTML).join("");
-        contenedor.innerHTML = html;
-})}
-
-function series_General() {
-    cargarContenido().then((data) => {
-        console.log(data)
-        const contenedor = document.getElementById("series");
-        const filtro = data.filter(filtro => filtro.categoria_general === "Series")
-        filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
-        let html = filtro.map(createItemHTML).join("");
-        contenedor.innerHTML = html;
-})}
-
-function videojuegos_General() {
-    cargarContenido().then((data) => {
-        console.log(data)
-        const contenedor = document.getElementById("videojuegos");
-        const filtro = data.filter(filtro => filtro.categoria_general === "Videojuegos")
-        filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
-        let html = filtro.map(createItemHTML).join("");
-        contenedor.innerHTML = html;
-})}
 
 async function cargarContenido() {
     try {
@@ -205,20 +174,30 @@ if (loginModalElement) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    const navbarPlaceholder = document.getElementById("navbar-placeholder");
 
-    if (usuario && usuario.NombreUsuario) {
-        const usernameMobile = document.getElementById("usernameMobile");
-        const usernameDesktop = document.getElementById("usernameDesktop");
+    if (navbarPlaceholder) {
+        fetch("/navbar.html")
+            .then(res => res.text())
+            .then(html => {
+                navbarPlaceholder.innerHTML = html;
 
-        usernameMobile.textContent = usuario.NombreUsuario;
-        usernameMobile.classList.remove("d-none");
+                const usuario = JSON.parse(localStorage.getItem("usuario"));
 
-        usernameDesktop.textContent = usuario.NombreUsuario;
-        usernameDesktop.classList.remove("d-none");
+                if (usuario && usuario.NombreUsuario) {
+                    const usernameMobile = document.getElementById("usernameMobile");
+                    const usernameDesktop = document.getElementById("usernameDesktop");
 
-        document.getElementById("logoutMobile").classList.remove("d-none");
-        document.getElementById("logoutDesktop").classList.remove("d-none");
+                    usernameMobile.textContent = usuario.NombreUsuario;
+                    usernameMobile.classList.remove("d-none");
+
+                    usernameDesktop.textContent = usuario.NombreUsuario;
+                    usernameDesktop.classList.remove("d-none");
+
+                    document.getElementById("logoutMobile").classList.remove("d-none");
+                    document.getElementById("logoutDesktop").classList.remove("d-none");
+                }
+            });
     }
 });
 
