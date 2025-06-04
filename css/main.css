@@ -5,6 +5,14 @@ nav{
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
 
+.game-header {
+  background-color: #2B2B2B;
+  color: white;
+  padding: 5rem 0;
+  margin-bottom: 3rem;
+}
+
+
 .logo-web{
   width: 100px;
   height: auto;

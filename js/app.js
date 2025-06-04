@@ -129,18 +129,6 @@ function mostrarLogin() {
       `;
 }
 
-const loginModalElement = document.getElementById("loginModal");
-if (loginModalElement) {
-    loginModalElement.addEventListener('show.bs.modal', function (event) {
-        const usuario = JSON.parse(localStorage.getItem("usuario"));
-        if (usuario && usuario.NombreUsuario) {
-            event.preventDefault();
-
-            window.location.href = "perfil.html";
-        }
-    });
-}
-
 function cerrarSesion() {
     localStorage.removeItem("token");
     localStorage.removeItem("usuario");
@@ -249,6 +237,18 @@ document.addEventListener("DOMContentLoaded", () => {
                         console.error(data);
                     }
                 });
+
+                const loginModalElement = document.getElementById("loginModal");
+                if (loginModalElement) {
+                    loginModalElement.addEventListener('show.bs.modal', function (event) {
+                        const usuario = JSON.parse(localStorage.getItem("usuario"));
+                        if (usuario && usuario.NombreUsuario) {
+                            event.preventDefault();
+
+                            window.location.href = "perfil.html";
+                        }
+                    });
+                }
             });
     }
 });
