@@ -96,72 +96,6 @@ function createItemHTML(content) {
   `;
 }
 
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
-
-const modalElement = document.getElementById('loginModal');
-const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-
-modal.hide();
-
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const contrasena = document.getElementById('password').value;
-
-    const res = await fetch('http://localhost:3000/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, contrasena })
-    });
-
-    const data = await res.json();
-    if (res.ok && data.token) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("usuario", JSON.stringify(data.usuario));
-
-        alert(data.message);
-        console.log(data.usuario);
-
-        const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
-        modal.hide();
-
-        location.reload();
-    } else {
-        alert('Error al iniciar sesión');
-        console.error(data);
-    }
-});
-
-registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const nombre = document.getElementById('nombre').value;
-    const email = document.getElementById('emailRegister').value;
-    const contrasena = document.getElementById('passwordRegister').value;
-
-    const res = await fetch('http://localhost:3000/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, email, contrasena })
-    });
-
-    const data = await res.json();
-    if (res.ok && data.token) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("usuario", JSON.stringify(data.usuario));
-
-        alert(data.message);
-
-        const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
-        modal.hide();
-
-        location.reload();
-    } else {
-        alert('Error al registrarse');
-        console.error(data);
-    }
-});
-
 function mostrarRegistro() {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
 
@@ -216,6 +150,7 @@ function cerrarSesion() {
 
 document.addEventListener("DOMContentLoaded", () => {
     const navbarPlaceholder = document.getElementById("navbar-placeholder");
+    const footerPlaceholder = document.getElementById("footer-placeholder");
 
     if (navbarPlaceholder) {
         fetch("/navbar.html")
@@ -241,6 +176,80 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById("logoutMobile").classList.remove("d-none");
                     document.getElementById("logoutDesktop").classList.remove("d-none");
                 }
+            });
+    }
+
+    if (footerPlaceholder) {
+        fetch("/footer.html")
+            .then(res => res.text())
+            .then(html => {
+                footerPlaceholder.innerHTML = html;
+
+                const loginForm = document.getElementById('loginForm');
+                const registerForm = document.getElementById('registerForm');
+
+                const modalElement = document.getElementById('loginModal');
+                const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+
+                modal.hide();
+
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('email').value;
+                    const contrasena = document.getElementById('password').value;
+
+                    const res = await fetch('http://localhost:3000/api/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, contrasena })
+                    });
+
+                    const data = await res.json();
+                    if (res.ok && data.token) {
+                        localStorage.setItem("token", data.token);
+                        localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
+                        alert(data.message);
+                        console.log(data.usuario);
+
+                        const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
+                        modal.hide();
+
+                        location.reload();
+                    } else {
+                        alert('Error al iniciar sesión');
+                        console.error(data);
+                    }
+                });
+
+                registerForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const nombre = document.getElementById('nombre').value;
+                    const email = document.getElementById('emailRegister').value;
+                    const contrasena = document.getElementById('passwordRegister').value;
+
+                    const res = await fetch('http://localhost:3000/api/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ nombre, email, contrasena })
+                    });
+
+                    const data = await res.json();
+                    if (res.ok && data.token) {
+                        localStorage.setItem("token", data.token);
+                        localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
+                        alert(data.message);
+
+                        const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
+                        modal.hide();
+
+                        location.reload();
+                    } else {
+                        alert('Error al registrarse');
+                        console.error(data);
+                    }
+                });
             });
     }
 });
