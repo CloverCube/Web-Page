@@ -99,7 +99,7 @@ main{
 
 @media (max-width: 992px) {
   #resposive-element-carrusel{
-    height: 850px;
+    height: 1500px;
   }
 
   #Carrusel-Inicios img{
@@ -130,10 +130,29 @@ main{
   }
 
   #movil-use-front{
-
     height: 200px;
-    padding-bottom: 40px;
+  }
 
+  #resumen {
+    margin-top: 100px;
+  }
+}
+
+@media (max-width: 771px) {
+  #resposive-element-carrusel{
+    height: 1800px;
+  }
+}
+
+@media (max-width: 511px) {
+  #resposive-element-carrusel{
+    height: 1900px;
+  }
+}
+
+@media (max-width: 405px) {
+  #resposive-element-carrusel{
+    height: 2000px;
   }
 }
 /* Reportaje */
@@ -291,6 +310,10 @@ main{
   border-radius: 1rem;
   background-color: white;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+#resumen {
+  padding: 50px;
 }
 
 
