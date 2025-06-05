@@ -8,7 +8,7 @@ function frontDate() {
 
     if (home) {
         cargarContenido().then((data) => {
-            data.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
+            data.sort((a, b) => b.likes - a.likes);
             const primeros10 = data.slice(0, 10);
 
             let html = primeros10.map(createItemHTML).join("");
