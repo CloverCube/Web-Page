@@ -9,8 +9,9 @@ function frontDate() {
     if (home) {
         cargarContenido().then((data) => {
             data.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
+            const primeros10 = data.slice(0, 10);
 
-            let html = data.map(createItemHTML).join("");
+            let html = primeros10.map(createItemHTML).join("");
             home.innerHTML = html;
         });
     } else if (peliculas) {
@@ -65,9 +66,10 @@ async function cargarContenido() {
                 ...itemBD,
                 imagen: match?.imagen || "",
                 url_page: match?.url_page || "#",
-                parrafo: match?.parrafo || "",
-                likes: match?.likes || 0,
-                categoria_general: match?.categoria_general || "",
+                parrafo: itemBD.Descripcion || match?.parrafo || "",
+                likes: itemBD.Likes || 0,
+                categoria_general: itemBD.genero || "",
+                tipo: itemBD.tipo || "",
             };
         });
 
@@ -85,7 +87,7 @@ function createItemHTML(content) {
         <img src="${content.imagen}" alt="${content.Titulo}" class="img-fluid">
     </div>
     <div class="col-md-8">
-        <a href="${content.url_page}"><h2>${content.Titulo}</h2></a>
+        <a href="${content.url_page}"><h2>${content.Titulo}</h2><p>(${content.tipo})</p></a>
         <p>${content.parrafo}</p>
         <span>Genero: ${content.genero} |</span>
         <span>Likes: ${content.likes} | </span>

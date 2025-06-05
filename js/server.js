@@ -28,10 +28,12 @@ app.get("/api/contenidos", async (req, res) => {
                 c.Descripcion,
                 c.FechaLanzamiento AS fecha_lanzamiento,
                 tc.NombreTipo AS tipo,
-                g.NombreGenero AS genero
+                g.NombreGenero AS genero,
+                c.Likes
             FROM Contenidos c
                      JOIN TiposContenido tc ON c.TipoID = tc.TipoID
                      JOIN Generos g ON c.GeneroID = g.GeneroID
+            ORDER BY c.Likes DESC
         `);
         res.json(result.recordset);
     } catch (err) {
