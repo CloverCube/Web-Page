@@ -293,4 +293,28 @@ main{
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
 
+/* Artirculo */
+#article h1{
+  font-size: 60px;
+}
 
+#article h2 {
+  font-size: 40px;
+  font-weight: bold;
+  color: black;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+#banner-publi-top img{
+  object-fit: cover;
+  width: 100%;
+  height: 180px;
+}
+
+@media (max-width: 600px) {
+  #banner-publi-top img{
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+}
