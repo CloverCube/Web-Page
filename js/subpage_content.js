@@ -19,6 +19,72 @@ function createPreviewItemHTML(content) {
     `;
 }
 
+function createContentsSecondHTML(content) {
+    return `
+        <h2>${content.titulo_second}</h2>
+        <p>${content.content_second || "Contenido en desarrollo. Pronto disponible."}</p>
+    `;
+}
+
+function createContentsThreeHTML(content) {
+    return `
+        <h2>${content.titulo_three}</h2>
+        <p>${content.content_three || "Contenido en desarrollo. Pronto disponible."}</p>
+    `;
+}
+
+function createContentsFourHTML(content) {
+    return `
+        <h2>${content.titulo_four}</h2>
+        <p>${content.content_four || "Contenido en desarrollo. Pronto disponible."}</p>
+    `;
+}
+
+async function cargarSubContenido() {
+    try {
+        const resAPI = await fetch("http://localhost:3000/api/contenidos");
+        if (!resAPI.ok) throw new Error("API no disponible");
+        const contenidosBD = await resAPI.json();
+
+        const resJSON = await fetch("/content/page/subpage_content.json");
+        if (!resJSON.ok) throw new Error("JSON local no disponible");
+        const contenidosJSON = await resJSON.json();
+
+        const contenidosCombinados = contenidosBD.map((itemBD) => {
+            const match = contenidosJSON.find(
+                (itemJSON) =>
+                    itemJSON.titulo?.toLowerCase() === itemBD.Titulo.toLowerCase()
+            );
+
+            const fecha = new Date(itemBD.fecha_lanzamiento);
+            const ano = fecha.getFullYear();
+            const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+            const dia = String(fecha.getDate()).padStart(2, '0');
+            const soloFecha = `${ano}-${mes}-${dia}`;
+
+            return {
+                ...itemBD,
+                fecha_lanzamiento: soloFecha || itemBD.fecha_lanzamiento,
+                parrafo: itemBD.Descripcion || match?.parrafo || "",
+                likes: itemBD.Likes || 0,
+                categoria_general: itemBD.genero || "",
+                tipo: itemBD.tipo || "",
+                titulo_second: match?.titulo_second || "",
+                content_second: match?.content_second || "",
+                titulo_three: match?.titulo_three || "",
+                content_three: match?.content_three || "",
+                titulo_four: match?.titulo_four || "",
+                content_four: match?.content_four || "",
+            };
+        });
+
+        return contenidosCombinados;
+    } catch (error) {
+        console.error("Error cargando datos:", error.message);
+        return [];
+    }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     const params = new URLSearchParams(window.location.search);
     const tituloBuscado = params.get("titulo");
@@ -44,5 +110,21 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <h2 class="text-danger">Contenido no encontrado</h2>
             </div>
         `;
+    }
+
+    const datosContent = await cargarSubContenido();
+
+    const subContent = datos.find(item =>
+        item.Titulo.toLowerCase() === tituloBuscado.toLowerCase()
+    );
+
+    if (subContent) {
+        const secondContent = document.getElementById("content-second-placeholder");
+        const threeContent = document.getElementById("content-three-placeholder");
+        const fourContent = document.getElementById("content-four-placeholder");
+
+        secondContent.innerHTML = createContentsSecondHTML(subContent);
+        threeContent.innerHTML = createContentsThreeHTML(subContent);
+        fourContent.innerHTML = createContentsFourHTML(subContent);
     }
 });
