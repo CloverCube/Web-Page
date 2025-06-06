@@ -16,7 +16,7 @@ function frontDate() {
         });
     } else if (peliculas) {
         cargarContenido().then((data) => {
-            const filtro = data.filter(filtro => filtro.categoria_general === "Peliculas")
+            const filtro = data.filter(filtro => filtro.tipo === "pelicula")
 
             filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
 
@@ -26,7 +26,7 @@ function frontDate() {
         })
     } else if (series) {
         cargarContenido().then((data) => {
-            const filtro = data.filter(filtro => filtro.categoria_general === "Series")
+            const filtro = data.filter(filtro => filtro.tipo === "serie")
             filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
 
             let html = filtro.map(createItemHTML).join("");
@@ -35,7 +35,7 @@ function frontDate() {
         })
     } else if (videojuegos) {
         cargarContenido().then((data) => {
-            const filtro = data.filter(filtro => filtro.categoria_general === "Videojuegos")
+            const filtro = data.filter(filtro => filtro.tipo === "videojuego")
             filtro.sort((a, b) => new Date(b.fecha_lanzamiento) - new Date(a.fecha_lanzamiento));
 
             let html = filtro.map(createItemHTML).join("");
