@@ -87,7 +87,7 @@ function createItemHTML(content) {
         <img src="${content.imagen}" alt="${content.Titulo}" class="img-fluid">
     </div>
     <div class="col-md-8">
-        <a href="${content.url_page}"><h2>${content.Titulo}</h2><p>(${content.tipo})</p></a>
+        <a href="${content.url_page}"><h2>${content.Titulo}</h2><span>(${content.tipo})</span></a>
         <p>${content.parrafo}</p>
         <span>Genero: ${content.genero} |</span>
         <span>Likes: ${content.likes} | </span>
