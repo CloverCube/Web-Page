@@ -62,8 +62,17 @@ async function cargarContenido() {
                     itemJSON.titulo?.toLowerCase() === itemBD.Titulo.toLowerCase()
             );
 
+            const fecha = new Date(itemBD.fecha_lanzamiento);
+
+            const ano = fecha.getFullYear();
+            const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+            const dia = String(fecha.getDate()).padStart(2, '0');
+
+            const soloFecha = `${ano}-${mes}-${dia}`;
+
             return {
                 ...itemBD,
+                fecha_lanzamiento: soloFecha || itemBD.fecha_lanzamiento,
                 imagen: match?.imagen || "",
                 url_page: match?.url_page || "#",
                 parrafo: itemBD.Descripcion || match?.parrafo || "",
