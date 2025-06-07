@@ -189,6 +189,72 @@ app.get('/api/resenas/titulo/:titulo', async (req, res) => {
     }
 });
 
+app.get('/api/perfil/:usuarioId', async (req, res) => {
+    try {
+        const pool = await sql.connect(dbConfig);
+        const usuarioId = req.params.usuarioId;
+
+        const [resenas, favoritos, historial] = await Promise.all([
+            pool.request()
+                .input('UsuarioID', sql.Int, usuarioId)
+                .query(`
+                    SELECT R.ReseñaID, R.Calificacion, R.Comentario, R.FechaReseña, C.Titulo
+                    FROM Resenas R
+                        JOIN Contenidos C ON R.ContenidoID = C.ContenidoID
+                    WHERE R.UsuarioID = @UsuarioID
+                    ORDER BY R.FechaReseña DESC
+                `),
+            pool.request()
+                .input('UsuarioID', sql.Int, usuarioId)
+                .query(`
+                    SELECT F.FavoritoID, F.FechaAgregado, C.Titulo
+                    FROM Favoritos F
+                        JOIN Contenidos C ON F.ContenidoID = C.ContenidoID
+                    WHERE F.UsuarioID = @UsuarioID
+                    ORDER BY F.FechaAgregado DESC
+                `),
+            pool.request()
+                .input('UsuarioID', sql.Int, usuarioId)
+                .query(`
+                    SELECT H.HistorialID, H.FechaVisita, C.Titulo
+                    FROM HistorialPaginas H
+                        JOIN Contenidos C ON H.ContenidoID = C.ContenidoID
+                    WHERE H.UsuarioID = @UsuarioID
+                    ORDER BY H.FechaVisita DESC
+                `)
+            ]
+        );
+
+        const usuarioInfo = await pool.request()
+            .input('UsuarioID', sql.Int, usuarioId)
+            .query(`
+                SELECT UsuarioID, NombreUsuario, Correo, FechaRegistro, EsAdmin
+                FROM Usuarios
+                WHERE UsuarioID = @UsuarioID
+            `);
+
+        const estadisticas = await pool.request()
+            .input('UsuarioID', sql.Int, usuarioId)
+            .query(`
+                SELECT
+                    (SELECT COUNT(*) FROM Resenas WHERE UsuarioID = @UsuarioID) AS CantidadResenas,
+                    (SELECT COUNT(*) FROM Favoritos WHERE UsuarioID = @UsuarioID) AS CantidadFavoritos,
+                    (SELECT COUNT(*) FROM HistorialPaginas WHERE UsuarioID = @UsuarioID) AS CantidadVisitas
+            `);
+
+        res.json({
+            info: usuarioInfo.recordset[0],
+            stats: estadisticas.recordset[0],
+            resenas: resenas.recordset,
+            favoritos: favoritos.recordset,
+            historial: historial.recordset
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error al cargar perfil' });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Servidor API escuchando en http://localhost:${port}`);
 });
