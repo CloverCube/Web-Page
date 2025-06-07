@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const datosContent = await cargarSubContenido();
 
-    const subContent = datos.find(item =>
+    const subContent = datosContent.find(item =>
         item.Titulo.toLowerCase() === tituloBuscado.toLowerCase()
     );
 
