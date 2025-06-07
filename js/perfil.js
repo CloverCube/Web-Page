@@ -38,6 +38,8 @@ function renderSeccion(id, data, templateFn) {
         const inner = document.createElement("div");
         inner.className = "container-fluid";
 
+        inner.classList.add("scroll-limitado");
+
         inner.innerHTML = data.map(templateFn).join("");
         cardBody.appendChild(inner);
         card.appendChild(cardBody);

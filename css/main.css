@@ -450,3 +450,19 @@ main{
 #perfil-contenido a:hover{
   color: orange;
 }
+
+.scroll-limitado {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.scroll-limitado::-webkit-scrollbar {
+  width: 8px;
+}
+.scroll-limitado::-webkit-scrollbar-thumb {
+  background-color: #adb5bd;
+  border-radius: 4px;
+}
+.scroll-limitado::-webkit-scrollbar-track {
+  background-color: #e9ecef;
+}
