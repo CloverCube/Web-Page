@@ -1,21 +1,53 @@
-function createPreviewItemHTML(content) {
-    return `
-    <div class="container my-5">
+function createPreviewItemHTML(content, fav) {
+    if (fav) return `
+        <div class="container my-5">
         <div class="row">
             <div class="col-lg-6">
                 <h1 class="mb-4">${content.Titulo}</h1>
                 <p>${content.parrafo}</p>
-                <span>
-                    Genero: ${content.categoria_general} | Likes: ${content.likes} | Fecha: ${content.fecha_lanzamiento}
-                </span>
+                <div class="mb-2">
+                    <span><strong>Género:</strong> ${content.categoria_general}</span><br>
+                    <span><strong>Likes:</strong> ${content.likes}</span><br>
+                    <span><strong>Fecha de lanzamiento:</strong> ${content.fecha_lanzamiento}</span>
+                </div>
+            
+                <button class="btn btn-outline-danger mt-3" id="fav-btn" onclick="toggleFavorito()">💔 Quitar de Favoritos</button>
+            
+                <div id="mensaje-favorito" class="mt-2 text-success d-none"></div>
             </div>
+        
             <div class="col-lg-6">
                 <div class="ratio ratio-16x9">
-                    <img src="${content.imagen}" alt="${content.Titulo}" class="img-fluid">
+                    <img src="${content.imagen}" alt="${content.Titulo}" class="img-fluid rounded shadow-sm">
                 </div>
             </div>
         </div>
-    </div>
+        </div>
+    `;
+    else return `
+        <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1 class="mb-4">${content.Titulo}</h1>
+                <p>${content.parrafo}</p>
+                <div class="mb-2">
+                    <span><strong>Género:</strong> ${content.categoria_general}</span><br>
+                    <span><strong>Likes:</strong> ${content.likes}</span><br>
+                    <span><strong>Fecha de lanzamiento:</strong> ${content.fecha_lanzamiento}</span>
+                </div>
+            
+                <button class="btn btn-outline-primary mt-3" id="fav-btn" onclick="toggleFavorito()">❤️ Agregar a Favoritos</button>
+            
+                <div id="mensaje-favorito" class="mt-2 text-success d-none">Agregado a favoritos.</div>
+            </div>
+        
+            <div class="col-lg-6">
+                <div class="ratio ratio-16x9">
+                    <img src="${content.imagen}" alt="${content.Titulo}" class="img-fluid rounded shadow-sm">
+                </div>
+            </div>
+        </div>
+        </div>
     `;
 }
 
@@ -111,7 +143,22 @@ document.addEventListener("DOMContentLoaded", async () => {
             <h2 class="lead">${tituloBuscado}</h2>`;
 
         const preview = document.getElementById("preview-placeholder");
-        preview.innerHTML = createPreviewItemHTML(contenido);
+
+        try {
+            const usuario = JSON.parse(localStorage.getItem("usuario"));
+            if (!usuario) {
+                preview.innerHTML = createPreviewItemHTML(contenido, false);
+            } else {
+                const res = await fetch(`http://localhost:3000/api/favoritos?usuarioID=${usuario.UsuarioID}&titulo=${encodeURIComponent(tituloBuscado)}`);
+                const data = await res.json();
+
+                const btn = document.getElementById("fav-btn");
+
+                preview.innerHTML = createPreviewItemHTML(contenido, data.favorito);
+            }
+        } catch (err) {
+            console.error("Error al verificar favoritos:", err);
+        }
     } else {
         console.warn("Contenido no encontrado");
         document.getElementById("preview-placeholder").innerHTML = `
@@ -207,3 +254,50 @@ document.addEventListener("DOMContentLoaded", async () => {
         lista.appendChild(div);
     });
 });
+
+async function toggleFavorito() {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (!usuario) {
+        document.getElementById('fav-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            const modal = new bootstrap.Modal(document.getElementById("loginModal"));
+            modal.show();
+        });
+
+        return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const tituloBuscado = params.get("titulo");
+
+    const btn = document.getElementById("fav-btn");
+    const mensaje = document.getElementById("mensaje-favorito");
+
+    try {
+        const res = await fetch("http://localhost:3000/api/favoritos/toggle", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                usuarioID: usuario.UsuarioID,
+                titulo: tituloBuscado
+            })
+        });
+
+        const data = await res.json();
+
+        if (data.favorito) {
+            btn.innerText = "💔 Quitar de Favoritos";
+            btn.classList.replace("btn-outline-primary", "btn-outline-danger");
+            mensaje.classList.remove("d-none");
+            mensaje.innerText = "Agregado a favoritos.";
+        } else {
+            btn.innerText = "❤️ Agregar a Favoritos";
+            btn.classList.replace("btn-outline-danger", "btn-outline-primary");
+            mensaje.classList.remove("d-none");
+            mensaje.innerText = "Quitado de favoritos.";
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Error al procesar la solicitud.");
+    }
+}

@@ -255,6 +255,96 @@ app.get('/api/perfil/:usuarioId', async (req, res) => {
     }
 });
 
+app.get("/api/favoritos", async (req, res) => {
+    const { usuarioID, titulo } = req.query; // <-- AQUÍ
+
+    if (!usuarioID || !titulo) {
+        return res.status(400).json({ error: "Datos incompletos." });
+    }
+
+    try {
+        const pool = await sql.connect(dbConfig);
+
+        const result = await pool.request()
+            .input("titulo", sql.NVarChar, titulo)
+            .query(`SELECT ContenidoID FROM Contenidos WHERE Titulo = @titulo`);
+
+        if (result.recordset.length === 0) {
+            return res.status(404).json({ error: "Contenido no encontrado." });
+        }
+
+        const contenidoID = result.recordset[0].ContenidoID;
+
+        const favCheck = await pool.request()
+            .input("usuarioID", sql.Int, usuarioID)
+            .input("contenidoID", sql.Int, contenidoID)
+            .query(`
+                SELECT * FROM Favoritos
+                WHERE UsuarioID = @usuarioID AND ContenidoID = @contenidoID
+            `);
+
+        return res.json({ favorito: favCheck.recordset.length > 0 });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Error interno del servidor." });
+    }
+});
+
+app.post("/api/favoritos/toggle", async (req, res) => {
+    const { usuarioID, titulo } = req.body;
+
+    if (!usuarioID || !titulo) {
+        return res.status(400).json({ error: "Datos incompletos." });
+    }
+
+    try {
+        const pool = await sql.connect(dbConfig);
+
+        const result = await pool.request()
+            .input("titulo", sql.NVarChar, titulo)
+            .query(`SELECT ContenidoID FROM Contenidos WHERE Titulo = @titulo`);
+
+        if (result.recordset.length === 0) {
+            return res.status(404).json({ error: "Contenido no encontrado." });
+        }
+
+        const contenidoID = result.recordset[0].ContenidoID;
+
+        const favCheck = await pool.request()
+            .input("usuarioID", sql.Int, usuarioID)
+            .input("contenidoID", sql.Int, contenidoID)
+            .query(`
+                SELECT * FROM Favoritos
+                WHERE UsuarioID = @usuarioID AND ContenidoID = @contenidoID
+            `);
+
+        if (favCheck.recordset.length > 0) {
+            await pool.request()
+                .input("usuarioID", sql.Int, usuarioID)
+                .input("contenidoID", sql.Int, contenidoID)
+                .query(`
+                    DELETE FROM Favoritos
+                    WHERE UsuarioID = @usuarioID AND ContenidoID = @contenidoID
+                `);
+
+            return res.json({ favorito: false });
+        } else {
+            await pool.request()
+                .input("usuarioID", sql.Int, usuarioID)
+                .input("contenidoID", sql.Int, contenidoID)
+                .query(`
+                    INSERT INTO Favoritos (UsuarioID, ContenidoID, FechaAgregado)
+                    VALUES (@usuarioID, @contenidoID, GETDATE())
+                `);
+
+            return res.json({ favorito: true });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Error interno del servidor." });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Servidor API escuchando en http://localhost:${port}`);
 });
