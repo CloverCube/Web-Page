@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const { info, stats } = data;
 
             document.getElementById("perfil-nombre").textContent = info.NombreUsuario;
+            if (info.EsAdmin) document.getElementById("admin-panel-btn").classList.remove("d-none");
             document.getElementById("perfil-correo").textContent = `Correo: ${info.Correo}`;
             if (info.FechaCreacion == null) {
                 document.getElementById("perfil-fecha-creacion").textContent = `Fecha de creación: No encontrada`;
