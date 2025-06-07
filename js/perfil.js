@@ -47,11 +47,12 @@ function renderSeccion(id, data, templateFn) {
 }
 
 function templateResena(resena) {
+    const titulo = encodeURIComponent(resena.Titulo);
     return `
     <div class="border rounded p-3 m-3">
       <div class="mb-3">
         <h5 class="card-title">
-          <a href="#" class="text-decoration-none">${resena.Titulo}</a>
+          <a href="/page.html?titulo=${titulo}" class="text-decoration-none">${resena.Titulo}</a>
           <span class="text-muted">(${new Date(resena.FechaReseña).toLocaleDateString()})</span>
         </h5>
       </div>
@@ -63,10 +64,11 @@ function templateResena(resena) {
 }
 
 function templateFavorito(fav) {
+    const titulo = encodeURIComponent(fav.Titulo);
     return `
     <div class="border rounded p-3 m-3">
       <h5 class="mb-0">
-        <a href="#" class="text-decoration-none">${fav.Titulo}</a>
+        <a href="/page.html?titulo=${titulo}" class="text-decoration-none">${fav.Titulo}</a>
       </h5>
       <span class="text-muted">Agregado el ${new Date(fav.FechaAgregado).toLocaleDateString()}</span>
     </div>
@@ -74,10 +76,11 @@ function templateFavorito(fav) {
 }
 
 function templateHistorial(item) {
+    const titulo = encodeURIComponent(item.Titulo);
     return `
     <div class="border rounded p-3 m-3">
       <h6 class="mb-0">
-        <a href="#" class="text-decoration-none">${item.Titulo}</a>
+        <a href="/page.html?titulo=${titulo}" class="text-decoration-none">${item.Titulo}</a>
       </h6>
       <span class="text-muted">Visto el ${new Date(item.FechaVisita).toLocaleDateString()}</span>
     </div>
