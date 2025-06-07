@@ -434,3 +434,19 @@ main{
   height: 670px;
 }
 }
+
+/* Perfil */
+.imagen-perfil{
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#perfil-contenido a{
+  color: black;
+}
+
+#perfil-contenido a:hover{
+  color: orange;
+}
