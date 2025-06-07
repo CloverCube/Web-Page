@@ -60,14 +60,14 @@ function createContentsSecondHTML(content) {
 
 function createContentsThreeHTML(content) {
     return `
-        <h2>${content.titulo_second || "Titulo en desarrollo. Pronto disponible."}</h2>
+        <h2>${content.titulo_three || "Titulo en desarrollo. Pronto disponible."}</h2>
         <p>${content.content_three || "Contenido en desarrollo. Pronto disponible."}</p>
     `;
 }
 
 function createContentsFourHTML(content) {
     return `
-        <h2>${content.titulo_second || "Titulo en desarrollo. Pronto disponible."}</h2>
+        <h2>${content.titulo_four || "Titulo en desarrollo. Pronto disponible."}</h2>
         <p>${content.content_four || "Contenido en desarrollo. Pronto disponible."}</p>
     `;
 }
