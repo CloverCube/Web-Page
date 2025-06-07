@@ -126,5 +126,69 @@ document.addEventListener("DOMContentLoaded", async () => {
         secondContent.innerHTML = createContentsSecondHTML(subContent);
         threeContent.innerHTML = createContentsThreeHTML(subContent);
         fourContent.innerHTML = createContentsFourHTML(subContent);
+    } else {
+        console.warn("Sub Contenido no encontrado");
+        document.getElementById("content-second-placeholder").innerHTML = `
+            <div class="container my-5">
+                <h2 class="text-danger">Contenido no encontrado</h2>
+            </div>
+        `;
+
+        document.getElementById("content-three-placeholder").innerHTML = `
+            <div class="container my-5">
+                <h2 class="text-danger">Contenido no encontrado</h2>
+            </div>
+        `;
+
+        document.getElementById("content-four-placeholder").innerHTML = `
+            <div class="container my-5">
+                <h2 class="text-danger">Contenido no encontrado</h2>
+            </div>
+        `;
     }
+
+    const areaResena = document.getElementById('form-resenas-placeholder');
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+    if (!usuario) {
+        areaResena.innerHTML = `<p>Debes <a href="/login.html">iniciar sesión</a> para dejar una reseña.</p>`;
+    } else {
+        areaResena.innerHTML = `
+            <form id="form-resena">
+                <input type="number" id="calificacion" placeholder="Calificación (1-10)" min="1" max="10" required><br>
+                <textarea id="comentario" placeholder="Escribe tu reseña..." required></textarea><br>
+                <button type="submit">Enviar Reseña</button>
+            </form>
+        `;
+
+        document.getElementById('form-resena').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const usuarioId = usuario.UsuarioID;
+
+            const calificacion = document.getElementById('calificacion').value;
+            const comentario = document.getElementById('comentario').value;
+
+            await fetch('http://localhost:3000/resenas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ usuarioId, titulo: tituloObra, calificacion, comentario })
+            });
+
+            document.getElementById('form-resena').reset();
+        });
+    }
+
+    const res = await fetch(`http://localhost:3000/api/resenas/titulo/${encodeURIComponent(tituloBuscado)}`);
+    const resenas = await res.json();
+
+    const lista = document.getElementById('resenas-placeholder');
+    lista.innerHTML = '';
+    resenas.forEach(r => {
+        const div = document.createElement('div');
+        div.innerHTML = `<strong>${r.NombreUsuario}</strong> calificó con <b>${r.Calificacion}/10</b><br>
+                                 "${r.Comentario}"<br>
+                                 <small>${new Date(r.FechaReseña).toLocaleString()}</small><hr>`;
+        lista.appendChild(div);
+    });
 });
