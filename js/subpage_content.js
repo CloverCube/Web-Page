@@ -101,6 +101,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
     if (contenido) {
+        const headerTitle = document.getElementById("title-placeholder");
+        headerTitle.innerHTML = `
+            <h1 class="display-4 fw-bold">
+                <span class="text-orange">PIXEL</span>
+                <span class="text-blue">&</span>
+                <span class="text-orange">F</span><span class="text-blue">RAME</span>
+            </h1>
+            <h2 class="lead">${tituloBuscado}</h2>`;
+
         const preview = document.getElementById("preview-placeholder");
         preview.innerHTML = createPreviewItemHTML(contenido);
     } else {
