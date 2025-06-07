@@ -53,21 +53,21 @@ function createPreviewItemHTML(content, fav) {
 
 function createContentsSecondHTML(content) {
     return `
-        <h2>${content.titulo_second}</h2>
+        <h2>${content.titulo_second || "Titulo en desarrollo. Pronto disponible."}</h2>
         <p>${content.content_second || "Contenido en desarrollo. Pronto disponible."}</p>
     `;
 }
 
 function createContentsThreeHTML(content) {
     return `
-        <h2>${content.titulo_three}</h2>
+        <h2>${content.titulo_second || "Titulo en desarrollo. Pronto disponible."}</h2>
         <p>${content.content_three || "Contenido en desarrollo. Pronto disponible."}</p>
     `;
 }
 
 function createContentsFourHTML(content) {
     return `
-        <h2>${content.titulo_four}</h2>
+        <h2>${content.titulo_second || "Titulo en desarrollo. Pronto disponible."}</h2>
         <p>${content.content_four || "Contenido en desarrollo. Pronto disponible."}</p>
     `;
 }
