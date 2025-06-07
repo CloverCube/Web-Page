@@ -11,10 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const { info, stats } = data;
 
             document.getElementById("perfil-nombre").textContent = info.NombreUsuario;
+            if (info.EsAdmin) document.getElementById("admin-panel-btn").classList.remove("d-none");
             document.getElementById("perfil-correo").textContent = `Correo: ${info.Correo}`;
-            if (info.FechaCreacion == null) {
-                document.getElementById("perfil-fecha-creacion").textContent = `Fecha de creación: No encontrada`;
-            } else document.getElementById("perfil-fecha-creacion").textContent = `Fecha de creación: ${new Date(info.FechaCreacion).toLocaleDateString()}`;
+            if (info.FechaRegistro == null) {
+                document.getElementById("perfil-fecha-creacion").textContent = `Fecha de registro: No encontrada`;
+            } else document.getElementById("perfil-fecha-creacion").textContent = `Fecha de registro: ${new Date(info.FechaRegistro).toLocaleDateString()}`;
             document.getElementById("perfil-stats").textContent = `${stats.CantidadResenas} reseñas • ${stats.CantidadFavoritos} favoritos • ${stats.CantidadVisitas} visitas`;
 
             renderSeccion("perfil-resenas", data.resenas, templateResena);
@@ -50,6 +51,15 @@ function renderSeccion(id, data, templateFn) {
 
 function templateResena(resena) {
     const titulo = encodeURIComponent(resena.Titulo);
+    const fecha = new Date(item.FechaVisita);
+    const fechaFormateada = fecha.toLocaleString(undefined, {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+
     return `
     <div class="border rounded p-3 m-3">
       <div class="mb-3">
@@ -59,7 +69,7 @@ function templateResena(resena) {
         </h5>
       </div>
       <div>
-        <span class="text-muted">${resena.Comentario}</span>
+        <span class="text-muted">${fechaFormateada}</span>
       </div>
     </div>
   `;
@@ -67,24 +77,42 @@ function templateResena(resena) {
 
 function templateFavorito(fav) {
     const titulo = encodeURIComponent(fav.Titulo);
+    const fecha = new Date(item.FechaVisita);
+    const fechaFormateada = fecha.toLocaleString(undefined, {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+
     return `
     <div class="border rounded p-3 m-3">
       <h5 class="mb-0">
         <a href="/page.html?titulo=${titulo}" class="text-decoration-none">${fav.Titulo}</a>
       </h5>
-      <span class="text-muted">Agregado el ${new Date(fav.FechaAgregado).toLocaleDateString()}</span>
+      <span class="text-muted">Agregado el ${fechaFormateada}</span>
     </div>
   `;
 }
 
 function templateHistorial(item) {
     const titulo = encodeURIComponent(item.Titulo);
+    const fecha = new Date(item.FechaVisita);
+    const fechaFormateada = fecha.toLocaleString(undefined, {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+
     return `
     <div class="border rounded p-3 m-3">
       <h6 class="mb-0">
         <a href="/page.html?titulo=${titulo}" class="text-decoration-none">${item.Titulo}</a>
       </h6>
-      <span class="text-muted">Visto el ${new Date(item.FechaVisita).toLocaleDateString()}</span>
+      <span class="text-muted">Visto el ${fechaFormateada}</span>
     </div>
   `;
 }
