@@ -23,7 +23,7 @@ Esto es un proyecto para prueba/testeo, no esta hecho para que este en produccio
 
 ```sh
     npm init -y
-    npm install express mssql cors jsonwebtoken
+    npm install express mssql cors jsonwebtoken fs
 ``` 
 
 
