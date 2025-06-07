@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
-     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/assets/fonts/fonts.css">
 
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -15,161 +15,162 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-dark mt-5">Admin Panel</h1>
-        <div class="row" id="formularios-estilos" >
-            
-            <div class="form-container">
-        <h2>Registrar Artiruclo</h2>
+<div class="container">
+    <h1 class="text-dark mt-5">Admin Panel</h1>
+    <div class="row" id="formularios-estilos" >
 
-        <!-- 
-IDs y elementos del formulario:
+        <div class="form-container">
+            <h2>Registrar Artiruclo</h2>
 
-1. titulo – Input de texto: Título del contenido.
-2. descripcion – Textarea: Descripción del contenido.
-3. tipoID – Select: Tipo de contenido
-   - 1: Película
-   - 2: Videojuego
-   - 3: Serie
-4. generoID – Select: Género del contenido
-   - 1: Acción
-   - 2: Aventura
-   - 3: Ciencia Ficción
-   - 4: Drama
-   - 5: Comedia
-   - 6: Terror
-   - 7: Romance
-   - 8: Fantasía
-   - 9: Documental
-   - 10: Animación
-   - 11: Misterio
-   - 12: Musical
-   - 13: Deportes
-   - 14: Superhéroes
-   - 15: Survival Horror
-   - 16: Shooter
-   - 17: Rol
-   - 18: Estrategia
-   - 19: Sandbox
-   - 20: Indie
-5. fechaLanzamiento – Input tipo date: Fecha de lanzamiento del contenido.
-6. imagenURL – Input tipo url: URL de imagen destacada.
-7. PuntoUno – Input de texto: Subtítulo 1.
-8. ContenidoPuntoUno – Textarea: Contenido del subtítulo 1.
-9. PuntoDos – Input de texto: Subtítulo 2.
-10. ContenidoPuntoDos – Textarea: Contenido del subtítulo 2.
-11. PuntoTres – Input de texto: Subtítulo 3.
-12. ContenidoPuntoTres – Textarea: Contenido del subtítulo 3.
--->
+            <!--
+    IDs y elementos del formulario:
+
+    1. titulo – Input de texto: Título del contenido.
+    2. descripcion – Textarea: Descripción del contenido.
+    3. tipoID – Select: Tipo de contenido
+       - 1: Película
+       - 2: Videojuego
+       - 3: Serie
+    4. generoID – Select: Género del contenido
+       - 1: Acción
+       - 2: Aventura
+       - 3: Ciencia Ficción
+       - 4: Drama
+       - 5: Comedia
+       - 6: Terror
+       - 7: Romance
+       - 8: Fantasía
+       - 9: Documental
+       - 10: Animación
+       - 11: Misterio
+       - 12: Musical
+       - 13: Deportes
+       - 14: Superhéroes
+       - 15: Survival Horror
+       - 16: Shooter
+       - 17: Rol
+       - 18: Estrategia
+       - 19: Sandbox
+       - 20: Indie
+    5. fechaLanzamiento – Input tipo date: Fecha de lanzamiento del contenido.
+    6. imagenURL – Input tipo url: URL de imagen destacada.
+    7. PuntoUno – Input de texto: Subtítulo 1.
+    8. ContenidoPuntoUno – Textarea: Contenido del subtítulo 1.
+    9. PuntoDos – Input de texto: Subtítulo 2.
+    10. ContenidoPuntoDos – Textarea: Contenido del subtítulo 2.
+    11. PuntoTres – Input de texto: Subtítulo 3.
+    12. ContenidoPuntoTres – Textarea: Contenido del subtítulo 3.
+    -->
 
 
-    <form id="contenidosForm">
-     <div class="row">
-        <div class="col-lg-6">
-          <div class="mb-3">
-              <label for="titulo" class="form-label">Título</label>
-              <input type="text" class="form-control" id="titulo" name="titulo" required>
-          </div>
-          <div class="mb-3">
-              <label for="descripcion" class="form-label">Descripción</label>
-              <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
-          </div>
+            <form id="contenidosForm">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="tipoID" class="form-label">Tipo de Contenido</label>
+                            <select class="form-select" id="tipoID" name="tipoID" required>
+                                <option value="">Seleccionar tipo...</option>
+                                <option value="1">Pelicula</option>
+                                <option value="2">Videojuego</option>
+                                <option value="3">Serie</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="generoID" class="form-label">Género</label>
+                            <select class="form-select" id="generoID" name="generoID" required>
+                                <option value="">Seleccionar género...</option>
+                                <option value="1">Accion</option>
+                                <option value="2">Aventura</option>
+                                <option value="3">Ciencia Ficcion</option>
+                                <option value="4">Drama</option>
+                                <option value="5">Comedia</option>
+                                <option value="6">Terror</option>
+                                <option value="7">Romance</option>
+                                <option value="8">Fantasía</option>
+                                <option value="9">Documental</option>
+                                <option value="10">Animación</option>
+                                <option value="11">Misterio</option>
+                                <option value="12">Musical</option>
+                                <option value="13">Deportes</option>
+                                <option value="14">Superhéroes</option>
+                                <option value="15">Survival Horror</option>
+                                <option value="16">Shooter</option>
+                                <option value="17">Rol</option>
+                                <option value="18">Estrategia</option>
+                                <option value="19">Sandbox</option>
+                                <option value="20">Indie</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fechaLanzamiento" class="form-label">Fecha de Lanzamiento</label>
+                            <input type="date" class="form-control" id="fechaLanzamiento" name="fechaLanzamiento" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="imagenURL">Imagen Destacada (URL)</label><br>
+                    <input type="url" id="imagenURL" name="imagenURL" placeholder="https://ejemplo.com/imagen.jpg">
+                </div>
+
+                <hr>
+
+                <h2 class="mt-4">Completar artículo</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="PuntoUno">Punto Uno (SubTitulo)</label><br>
+                            <input type="text" id="PuntoUno" name="PuntoUno" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ContenidoPuntoUno">Contenido</label><br>
+                            <textarea id="ContenidoPuntoUno" name="ContenidoPuntoUno" class="form-control" required></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="PuntoDos">Punto Dos (SubTitulo)</label><br>
+                            <input type="text" id="PuntoDos" name="PuntoDos" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ContenidoPuntoDos">Contenido</label><br>
+                            <textarea id="ContenidoPuntoDos" name="ContenidoPuntoDos" class="form-control" required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="PuntoTres">Punto Tres (SubTitulo)</label><br>
+                    <input type="text" id="PuntoTres" name="PuntoTres" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="ContenidoPuntoTres">Contenido</label><br>
+                    <textarea id="ContenidoPuntoTres" name="ContenidoPuntoTres" class="form-control" required></textarea>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Guardar Contenido</button>
+                </div>
+            </form>
+
         </div>
-
-        <div class="col-lg-6">
-          <div class="mb-3">
-              <label for="tipoID" class="form-label">Tipo de Contenido</label>
-              <select class="form-select" id="tipoID" name="tipoID" required>
-                 <option value="">Seleccionar tipo...</option>
-                 <option value="1">Pelicula</option>
-                 <option value="2">Videojuego</option>
-                 <option value="3">Serie</option>
-              </select>
-          </div>
-          <div class="mb-3">
-              <label for="generoID" class="form-label">Género</label>
-              <select class="form-select" id="generoID" name="generoID" required>
-                    <option value="">Seleccionar género...</option>
-                    <option value="1">Accion</option>
-                    <option value="2">Aventura</option>
-                    <option value="3">Ciencia Ficcion</option>
-                    <option value="4">Drama</option>
-                    <option value="5">Comedia</option>
-                    <option value="6">Terror</option>
-                    <option value="7">Romance</option>
-                    <option value="8">Fantasía</option>
-                    <option value="9">Documental</option>
-                    <option value="10">Animación</option>
-                    <option value="11">Misterio</option>
-                    <option value="12">Musical</option>
-                    <option value="13">Deportes</option>
-                    <option value="14">Superhéroes</option>
-                    <option value="15">Survival Horror</option>
-                    <option value="16">Shooter</option>
-                    <option value="17">Rol</option>
-                    <option value="18">Estrategia</option>
-                    <option value="19">Sandbox</option>
-                    <option value="20">Indie</option>
-              </select>
-          </div>
-          <div class="mb-3">
-              <label for="fechaLanzamiento" class="form-label">Fecha de Lanzamiento</label>
-              <input type="date" class="form-control" id="fechaLanzamiento" name="fechaLanzamiento" required>
-          </div>
-        </div>
-     </div>
-
-         <div class="form-group">
-              <label for="imagenURL">Imagen Destacada (URL)</label><br>
-              <input type="url" id="imagenURL" name="imagenURL" placeholder="https://ejemplo.com/imagen.jpg">
-         </div>
-
-         <hr>
-
-         <h2 class="mt-4">Completar artículo</h2>
-         <div class="row">
-              <div class="col-md-6">
-                    <div class="form-group">
-                         <label for="PuntoUno">Punto Uno (SubTitulo)</label><br>
-                         <input type="text" id="PuntoUno" name="PuntoUno" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                         <label for="ContenidoPuntoUno">Contenido</label><br>
-                         <textarea id="ContenidoPuntoUno" name="ContenidoPuntoUno" class="form-control" required></textarea>
-                    </div>
-              </div>
-              <div class="col-md-6">
-                    <div class="form-group">
-                         <label for="PuntoDos">Punto Dos (SubTitulo)</label><br>
-                         <input type="text" id="PuntoDos" name="PuntoDos" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                         <label for="ContenidoPuntoDos">Contenido</label><br>
-                         <textarea id="ContenidoPuntoDos" name="ContenidoPuntoDos" class="form-control" required></textarea>
-                    </div>
-              </div>
-         </div>
-
-         <div class="form-group mt-3">
-              <label for="PuntoTres">Punto Tres (SubTitulo)</label><br>
-              <input type="text" id="PuntoTres" name="PuntoTres" class="form-control" required>
-         </div>
-         <div class="form-group">
-              <label for="ContenidoPuntoTres">Contenido</label><br>
-              <textarea id="ContenidoPuntoTres" name="ContenidoPuntoTres" class="form-control" required></textarea>
-         </div>
-
-         <div class="mt-4">
-              <button type="submit" class="btn btn-primary">Guardar Contenido</button>
-         </div>
-    </form>
 
     </div>
+</div>
 
-        </div>
-    </div>
-    
-    <script src="/bootstrap/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="/js/app.js"></script>
+<script src="/bootstrap/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="/js/app.js"></script>
+<script src="/js/admin.js"></script>
 </body>
 </html>
