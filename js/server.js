@@ -345,6 +345,41 @@ app.post("/api/favoritos/toggle", async (req, res) => {
     }
 });
 
+app.post("/api/historial/insert", async (req, res) => {
+    const { usuarioID, titulo } = req.body;
+
+    if (!usuarioID || !titulo) {
+        return res.status(400).json({ error: "Datos incompletos." });
+    }
+
+    try {
+        const pool = await sql.connect(dbConfig);
+
+        const result = await pool.request()
+            .input("titulo", sql.NVarChar, titulo)
+            .query(`SELECT ContenidoID FROM Contenidos WHERE Titulo = @titulo`);
+
+        if (result.recordset.length === 0) {
+            return res.status(404).json({ error: "Contenido no encontrado." });
+        }
+
+        const contenidoID = result.recordset[0].ContenidoID;
+
+        await pool.request()
+            .input("usuarioID", sql.Int, usuarioID)
+            .input("contenidoID", sql.Int, contenidoID)
+            .query(`
+                INSERT INTO HistorialPaginas (UsuarioID, ContenidoID, FechaVisita)
+                VALUES (@usuarioID, @contenidoID, GETDATE())
+            `);
+
+        return res.json({ success: true });
+    } catch (err) {
+        console.error("Error al insertar historial:", err);
+        res.status(500).json({ error: "Error interno del servidor." });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Servidor API escuchando en http://localhost:${port}`);
 });

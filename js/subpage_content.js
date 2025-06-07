@@ -155,9 +155,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const btn = document.getElementById("fav-btn");
 
                 preview.innerHTML = createPreviewItemHTML(contenido, data.favorito);
+
+                await fetch("http://localhost:3000/api/historial/insert", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        usuarioID: usuario.UsuarioID,
+                        titulo: tituloBuscado
+                    })
+                });
             }
         } catch (err) {
-            console.error("Error al verificar favoritos:", err);
+            console.error("Error al verificar favoritos o cargar historial:", err);
         }
     } else {
         console.warn("Contenido no encontrado");
