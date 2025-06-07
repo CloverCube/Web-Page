@@ -143,6 +143,52 @@ app.post("/api/login", async (req, res) => {
     }
 });
 
+app.post('/api/resenas', async (req, res) => {
+    const { usuarioId, titulo, calificacion, comentario } = req.body;
+
+    try {
+        await sql.connect(dbConfig);
+
+        const result = await sql.query`
+            SELECT ContenidoID FROM Contenidos WHERE Titulo = ${titulo}
+        `;
+        if (result.recordset.length === 0) {
+            return res.status(404).send('Contenido no encontrado');
+        }
+
+        const contenidoId = result.recordset[0].ContenidoID;
+
+        await sql.query`
+            INSERT INTO Resenas (UsuarioID, ContenidoID, Calificacion, Comentario)
+            VALUES (${usuarioId}, ${contenidoId}, ${calificacion}, ${comentario});
+        `;
+
+        res.sendStatus(200);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
+
+app.get('/api/resenas/titulo/:titulo', async (req, res) => {
+    const { titulo } = req.params;
+
+    try {
+        await sql.connect(dbConfig);
+        const result = await sql.query`
+            SELECT R.ReseñaID, U.NombreUsuario, R.Calificacion, R.Comentario, R.FechaReseña, C.Titulo
+                FROM Resenas R
+                     JOIN Usuarios U ON R.UsuarioID = U.UsuarioID
+                     JOIN Contenidos C ON R.ContenidoID = C.ContenidoID
+                WHERE C.Titulo = ${titulo}
+                    ORDER BY R.FechaReseña DESC;
+        `;
+
+        res.json(result.recordset);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
+
 app.listen(port, () => {
     console.log(`Servidor API escuchando en http://localhost:${port}`);
 });
