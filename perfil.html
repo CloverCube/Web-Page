@@ -50,39 +50,30 @@
             <div class="col-9">
                 <div class="d-flex flex-column justify-content-center h-100">
                     <div class="mb-2">
-                        <span class="h4 fw-bold">Juan Pérez</span>
+                        <span id="perfil-nombre" class="h4 fw-bold">Juan Pérez</span>
                     </div>
                     <div class="mb-2">
-                        <span class="text-muted">@juanperez_dev</span>
+                        <span id="perfil-fecha-creacion" class="text-secondary">Fecha de creación: 15 de marzo, 2023</span>
                     </div>
-                    <div>
-                        <span class="text-secondary">Fecha de creación: 15 de marzo, 2023</span>
+                    <div class="mb-2">
+                        <span id="perfil-correo" class="text-secondary">Correo: juan@example.com</span>
+                    </div>
+                    <div class="mb-2">
+                        <span id="perfil-stats" class="text-secondary">12 reseñas • 8 favoritos • 53 visitas</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Sección de posts -->
         <section class="my-5" id="perfil-contenido">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <div class="container-fluid">
+            <h5>Reseñas</h5>
+            <div id="perfil-resenas" class="mb-4"></div>
 
-                        <!-- Comentario individual con borde y margin -->
-                        <div class="border rounded p-3 m-3">
-                            <div class="mb-3">
-                                <h5 class="card-title">
-                                    <a href="#" class="text-decoration-none">The Last of Us Part II</a>
-                                </h5>
-                            </div>
-                            <div>
-                                <span class="text-muted">Nada mal ese juego a mi si me gusto mucho</span>
-                            </div>
-                        </div>
-                    </div>
+            <h5>Favoritos</h5>
+            <div id="perfil-favoritos" class="mb-4"></div>
 
-                </div>
-            </div>
+            <h5>Historial</h5>
+            <div id="perfil-historial" class="mb-4"></div>
         </section>
     </div>
 
