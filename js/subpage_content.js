@@ -151,7 +151,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
 
     if (!usuario) {
-        areaResena.innerHTML = `<p>Debes <a href="/login.html">iniciar sesión</a> para dejar una reseña.</p>`;
+        areaResena.innerHTML = `<p>Debes <a href="javascript:void(0)" id="abrirLoginModal">iniciar sesión</a> para dejar una reseña.</p>`;
+
+        document.getElementById('abrirLoginModal').addEventListener('click', (e) => {
+            e.preventDefault();
+            const modal = new bootstrap.Modal(document.getElementById("loginModal"));
+            modal.show();
+        });
     } else {
         areaResena.innerHTML = `
             <form id="form-resena">
