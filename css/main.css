@@ -391,3 +391,46 @@ main{
   height: 100%;
 }
 }
+
+/*Paguinas dedicadas*/
+.titulo-paguinas{
+  height: 640px;
+  width: 100%;
+}
+
+.titulo-paguinas iframe{
+  height: 450px;
+  width: 100%;
+}
+
+.titulo-paguinas h1{
+  font-size: 60px;
+  color: black;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+.titulo-paguinas img{
+  object-fit: cover;
+  height: 90%;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.titulo-paguinas span{
+  margin-top: 17px;
+}
+
+@media (max-width: 600px) {
+  
+.titulo-paguinas iframe{
+  height: 200px;
+  width: 100%;
+}
+
+#publicidad-pagina-dedicada{
+  margin-bottom: 10px;
+}
+.titulo-paguinas{
+  height: 670px;
+}
+}
