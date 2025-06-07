@@ -394,7 +394,7 @@ main{
 
 /*Paguinas dedicadas*/
 .titulo-paguinas{
-  height: 640px;
+  height: auto;
   width: 100%;
 }
 
