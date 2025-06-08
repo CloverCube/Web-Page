@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const tituloBuscado = params.get("titulo");
 
     if (!tituloBuscado) {
-        window.location.href = "index.html";
+        window.location.href = "/index.html";
         return;
     }
 

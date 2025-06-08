@@ -112,7 +112,7 @@ function mostrarRegistro() {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
 
     if (usuario && usuario.NombreUsuario) {
-        window.location.href = "perfil.html";
+        window.location.href = "/perfil.html";
 
         return;
     }
@@ -129,7 +129,7 @@ function mostrarLogin() {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
 
     if (usuario && usuario.NombreUsuario) {
-        window.location.href = "perfil.html";
+        window.location.href = "/perfil.html";
 
         return;
     }
@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (usuario && usuario.NombreUsuario) {
                             event.preventDefault();
 
-                            window.location.href = "perfil.html";
+                            window.location.href = "/perfil.html";
                         }
                     });
                 }
