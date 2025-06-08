@@ -147,8 +147,6 @@ async function eliminarContenido(id) {
     }
 }
 
-mostrarContenidos();
-
 const btnAgregar = document.getElementById('btnAgregar');
 const formulario = document.getElementById('formularios-estilos');
 
@@ -190,8 +188,56 @@ async function cargarSelect(url, selectId, placeholder) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    mostrarContenidos();
+
+    document.getElementById('btnRecargarUsuarios').addEventListener('click', cargarUsuarios);
+    cargarUsuarios();
+
     cargarSelect('http://localhost:3000/api/tipos', 'tipoID', 'Seleccionar tipo...');
     cargarSelect('http://localhost:3000/api/generos', 'generoID', 'Seleccionar género...');
     cargarSelect('http://localhost:3000/api/tipos', 'editTipoID', 'Seleccionar tipo...');
     cargarSelect('http://localhost:3000/api/generos', 'editGeneroID', 'Seleccionar género...');
 });
+
+async function cargarUsuarios() {
+    try {
+        const response = await fetch('http://localhost:3000/api/usuarios');
+        const usuarios = await response.json();
+
+        const tablaBody = document.getElementById('tablaUsuarios');
+        tablaBody.innerHTML = '';
+
+        if (usuarios.length === 0) {
+            tablaBody.innerHTML = '<tr><td colspan="6" class="text-center">No hay usuarios registrados.</td></tr>';
+            return;
+        }
+
+        usuarios.forEach(usuario => {
+            const fila = document.createElement('tr');
+
+            let rol = "Usuario";
+
+            if (usuario.EsAdmin) {
+                rol = "Administrador";
+            }
+
+            fila.innerHTML = `
+                <td>${usuario.UsuarioID}</td>
+                <td>${usuario.NombreUsuario}</td>
+                <td>${usuario.Correo}</td>
+                <td>${rol}</td>
+                <td>${new Date(usuario.FechaRegistro).toLocaleDateString()}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary me-1">Editar</button>
+                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                </td>
+            `;
+            tablaBody.appendChild(fila);
+        });
+
+    } catch (error) {
+        console.error('Error al cargar usuarios:', error);
+        const tablaBody = document.getElementById('tablaUsuarios');
+        tablaBody.innerHTML = '<tr><td colspan="6" class="text-danger text-center">Error al cargar los usuarios.</td></tr>';
+    }
+}

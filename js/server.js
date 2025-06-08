@@ -241,6 +241,23 @@ app.get('/api/resenas/titulo/:titulo', async (req, res) => {
     }
 });
 
+app.get('/api/usuarios', async (req, res) => {
+    try {
+        let pool = await sql.connect(dbConfig);
+        const result = await pool.request()
+            .query(`
+                SELECT UsuarioID, NombreUsuario, Correo, EsAdmin, FechaRegistro
+                FROM Usuarios
+                ORDER BY UsuarioID DESC
+            `);
+
+        res.status(200).json(result.recordset);
+    } catch (error) {
+        console.error('Error al obtener usuarios:', error);
+        res.status(500).json({ error: 'Error al obtener la lista de usuarios' });
+    }
+});
+
 app.get('/api/perfil/:usuarioId', async (req, res) => {
     try {
         const pool = await sql.connect(dbConfig);
