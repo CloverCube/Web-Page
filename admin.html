@@ -70,90 +70,9 @@
         <div class="collapse" id="adminContentCollapse">
             <div class="card card-body">
                 <h2 class="mb-3">Gestión de Contenidos</h2>
-                <button id="btnAgregar" class="btn btn-success btn-sm">Agregar</button>
-
-                <div class="row" id="formularios-estilos" style="display: none; margin-top: 20px;">
-                    <div class="form-container col-12">
-                        <h2>Registrar Articulo</h2>
-
-                        <form id="contenidosForm">
-                            <div class="row">
-                                <div class="col-12 col-xl-6">
-                                    <div class="mb-3">
-                                        <label for="titulo" class="form-label">Título</label>
-                                        <input type="text" class="form-control" id="titulo" name="titulo" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="descripcion" class="form-label">Descripción</label>
-                                        <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-xl-6">
-                                    <div class="mb-3">
-                                        <label for="tipoID" class="form-label">Tipo de Contenido</label>
-                                        <select class="form-select" id="tipoID" name="tipoID" required></select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="generoID" class="form-label">Género</label>
-                                        <select class="form-select" id="generoID" name="generoID" required></select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="fechaLanzamiento" class="form-label">Fecha de Lanzamiento</label>
-                                        <input type="date" class="form-control" id="fechaLanzamiento" name="fechaLanzamiento" required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="imagenURL">Imagen Destacada (URL)</label><br>
-                                <input type="url" id="imagenURL" name="imagenURL" placeholder="https://ejemplo.com/imagen.jpg" class="form-control">
-                            </div>
-
-                            <hr>
-
-                            <h2 class="mt-4">Completar artículo</h2>
-                            <div class="row">
-                                <div class="col-12 col-xl-6">
-                                    <div class="mb-3">
-                                        <label for="PuntoUno">Punto Uno (SubTitulo)</label>
-                                        <input type="text" id="PuntoUno" name="PuntoUno" class="form-control" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="ContenidoPuntoUno">Contenido</label>
-                                        <textarea id="ContenidoPuntoUno" name="ContenidoPuntoUno" class="form-control" required></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-xl-6">
-                                    <div class="mb-3">
-                                        <label for="PuntoDos">Punto Dos (SubTitulo)</label>
-                                        <input type="text" id="PuntoDos" name="PuntoDos" class="form-control" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="ContenidoPuntoDos">Contenido</label>
-                                        <textarea id="ContenidoPuntoDos" name="ContenidoPuntoDos" class="form-control" required></textarea>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="PuntoTres">Punto Tres (SubTitulo)</label>
-                                <input type="text" id="PuntoTres" name="PuntoTres" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="ContenidoPuntoTres">Contenido</label>
-                                <textarea id="ContenidoPuntoTres" name="ContenidoPuntoTres" class="form-control" required></textarea>
-                            </div>
-
-                            <div class="mt-4">
-                                <button type="submit" class="btn btn-primary">Guardar Contenido</button>
-                            </div>
-
-                            <hr>
-                        </form>
-                    </div>
-                </div>
+                <button id="btnAgregar" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalContenido">
+                    Agregar
+                </button>
 
                 <div id="Content-Admin" class="row g-3" style="margin-top: 10px; max-height: 500px; overflow-y: auto;"></div>
             </div>
@@ -296,6 +215,91 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalContenido" tabindex="-1" aria-labelledby="modalContenidoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalContenidoLabel">Registrar Artículo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-center">
+                    <form id="contenidosForm" class="w-100" style="max-width: 800px;">
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+                        </div>
+
+                        <div class="row mb-3 align-items-end justify-content-center">
+                            <div class="col-12 col-md-6 col-lg-4 mb-2">
+                                <label for="tipoID" class="form-label">Tipo de Contenido</label>
+                                <select class="form-select" id="tipoID" name="tipoID" required></select>
+                            </div>
+
+                            <div class="col-12 col-md-6 col-lg-4 mb-2">
+                                <label for="generoID" class="form-label">Género</label>
+                                <select class="form-select" id="generoID" name="generoID" required></select>
+                            </div>
+
+                            <div class="col-12 col-md-6 col-lg-4 mb-2">
+                                <label for="fechaLanzamiento" class="form-label">Fecha de Lanzamiento</label>
+                                <input type="date" class="form-control" id="fechaLanzamiento" name="fechaLanzamiento" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="imagenURL" class="form-label">Imagen Destacada (URL)</label>
+                            <input type="url" id="imagenURL" name="imagenURL" placeholder="https://ejemplo.com/imagen.jpg" class="form-control">
+                        </div>
+
+                        <h4 class="mt-4">Completar artículo</h4>
+
+                        <div class="mb-3">
+                            <label for="PuntoUno" class="form-label">Punto Uno (SubTítulo)</label>
+                            <input type="text" id="PuntoUno" name="PuntoUno" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="ContenidoPuntoUno" class="form-label">Contenido</label>
+                            <textarea id="ContenidoPuntoUno" name="ContenidoPuntoUno" class="form-control" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="PuntoDos" class="form-label">Punto Dos (SubTítulo)</label>
+                            <input type="text" id="PuntoDos" name="PuntoDos" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="ContenidoPuntoDos" class="form-label">Contenido</label>
+                            <textarea id="ContenidoPuntoDos" name="ContenidoPuntoDos" class="form-control" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="PuntoTres" class="form-label">Punto Tres (SubTítulo)</label>
+                            <input type="text" id="PuntoTres" name="PuntoTres" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="ContenidoPuntoTres" class="form-label">Contenido</label>
+                            <textarea id="ContenidoPuntoTres" name="ContenidoPuntoTres" class="form-control" required></textarea>
+                        </div>
+
+                        <div class="mt-4 text-center">
+                            <button type="submit" class="btn btn-primary me-2">Guardar Contenido</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

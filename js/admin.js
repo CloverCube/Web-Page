@@ -18,6 +18,9 @@ document.getElementById("contenidosForm").addEventListener("submit", async funct
         if (res.ok) {
             alert("Contenido guardado con éxito.");
             this.reset();
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('modalContenido'));
+            modal.hide();
         } else {
             alert("Error: " + result.error);
         }
@@ -146,19 +149,6 @@ async function eliminarContenido(id) {
         alert("No se pudo eliminar el contenido");
     }
 }
-
-const btnAgregar = document.getElementById('btnAgregar');
-const formulario = document.getElementById('formularios-estilos');
-
-btnAgregar.addEventListener('click', () => {
-    if (formulario.style.display === 'none' || formulario.style.display === '') {
-        formulario.style.display = 'block';
-        btnAgregar.textContent = 'Cerrar formulario';
-    } else {
-        formulario.style.display = 'none';
-        btnAgregar.textContent = 'Agregar';
-    }
-});
 
 async function cargarSelect(url, selectId, placeholder) {
     try {
