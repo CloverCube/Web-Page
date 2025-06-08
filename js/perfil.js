@@ -23,7 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
             renderSeccion("perfil-historial", data.historial, templateHistorial);
         })
         .catch(err => {
-            console.error("Error cargando el perfil:" + err);
+            console.error("Error cargando el perfil");
+            console.log(err);
         });
 });
 
@@ -51,7 +52,7 @@ function renderSeccion(id, data, templateFn) {
 
 function templateResena(resena) {
     const titulo = encodeURIComponent(resena.Titulo);
-    const fecha = new Date(item.FechaVisita);
+    const fecha = new Date(resena.FechaVisita);
     const fechaFormateada = fecha.toLocaleString(undefined, {
         day: "2-digit",
         month: "long",
@@ -77,7 +78,7 @@ function templateResena(resena) {
 
 function templateFavorito(fav) {
     const titulo = encodeURIComponent(fav.Titulo);
-    const fecha = new Date(item.FechaVisita);
+    const fecha = new Date(fav.FechaVisita);
     const fechaFormateada = fecha.toLocaleString(undefined, {
         day: "2-digit",
         month: "long",
