@@ -43,6 +43,57 @@ app.get("/api/contenidos", async (req, res) => {
     }
 });
 
+app.get("/api/contenidos/:id", async (req, res) => {
+    const id = parseInt(req.params.id, 10);
+
+    if (isNaN(id)) {
+        return res.status(400).json({ error: "ID inválido" });
+    }
+
+    try {
+        const pool = await sql.connect(dbConfig);
+
+        const result = await pool.request()
+            .input("id", sql.Int, id)
+            .query(`
+                SELECT c.ContenidoID, c.Titulo, c.Descripcion, c.TipoID, c.GeneroID,
+                       c.FechaLanzamiento, c.Likes
+                FROM Contenidos c
+                WHERE c.ContenidoID = @id
+            `);
+
+        if (result.recordset.length === 0) {
+            return res.status(404).json({ error: "Contenido no encontrado" });
+        }
+
+        const contenidoBD = result.recordset[0];
+
+        const contentPath = "../content/page/content.json";
+        const subContentPath = "../content/page/subpage_content.json";
+        const subContentJSON = JSON.parse(await fs.readFile(subContentPath, "utf8"));
+
+        const contentJSON = JSON.parse(await fs.readFile(contentPath, "utf-8"));
+
+        const contentMatch = contentJSON.find(item => item.titulo.toLowerCase() === contenidoBD.Titulo.toLowerCase());
+        const subMatch = subContentJSON.find(item => item.titulo.toLowerCase() === contenidoBD.Titulo.toLowerCase());
+
+        res.json({
+            ...contenidoBD,
+            imagen: contentMatch?.imagen || "",
+            titulo_second: subMatch?.titulo_second || "",
+            content_second: subMatch?.content_second || "",
+            titulo_three: subMatch?.titulo_three || "",
+            content_three: subMatch?.content_three || "",
+            titulo_four: subMatch?.titulo_four || "",
+            content_four: subMatch?.content_four || ""
+        });
+
+    } catch (err) {
+        console.error("Error obteniendo contenido:", err);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
+});
+
 app.use(express.json());
 
 const jwt = require("jsonwebtoken");
@@ -437,6 +488,137 @@ app.post("/api/contenidos/nuevo", async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Error al guardar contenido." });
+    }
+});
+
+app.put("/api/contenidos/editar/:id", async (req, res) => {
+    const id = parseInt(req.params.id, 10);
+
+    if (isNaN(id)) {
+        return res.status(400).json({ error: "ID inválido" });
+    }
+
+    const {
+        titulo, descripcion, tipoID, generoID, fecha_lanzamiento,
+        imagen,
+        titulo_second, content_second,
+        titulo_three, content_three,
+        titulo_four, content_four
+    } = req.body;
+
+    if (!titulo || !descripcion || !fecha_lanzamiento) {
+        return res.status(400).json({ error: "Datos incompletos" });
+    }
+
+    try {
+        const pool = await sql.connect(dbConfig);
+
+        const result = await pool.request()
+            .input("id", sql.Int, id)
+            .query("SELECT Titulo FROM Contenidos WHERE ContenidoID = @id");
+
+        if (result.recordset.length === 0) {
+            return res.status(404).json({ error: "Contenido no encontrado" });
+        }
+
+        const tituloAnterior = result.recordset[0].Titulo;
+
+        await pool.request()
+            .input("id", sql.Int, id)
+            .input("titulo", sql.NVarChar, titulo)
+            .input("descripcion", sql.NVarChar, descripcion)
+            .input("tipoID", sql.Int, tipoID)
+            .input("generoID", sql.Int, generoID)
+            .input("fecha", sql.Date, fecha_lanzamiento)
+            .query(`
+                UPDATE Contenidos
+                SET Titulo = @titulo,
+                    Descripcion = @descripcion,
+                    TipoID = @tipoID,
+                    GeneroID = @generoID,
+                    FechaLanzamiento = @fecha
+                WHERE ContenidoID = @id
+            `);
+
+        const contentPath = "../content/page/content.json";
+        const subPath = "../content/page/subpage_content.json";
+
+        const contentData = JSON.parse(await fs.readFile(contentPath, "utf8"));
+        const nuevoContentData = contentData.filter(c => c.titulo.toLowerCase() !== tituloAnterior.toLowerCase());
+        nuevoContentData.push({ titulo, imagen });
+        await fs.writeFile(contentPath, JSON.stringify(nuevoContentData, null, 2));
+
+        const subData = JSON.parse(await fs.readFile(subPath, "utf8"));
+        const nuevoSubData = subData.filter(c => c.titulo.toLowerCase() !== tituloAnterior.toLowerCase());
+        nuevoSubData.push({
+            titulo,
+            titulo_second,
+            content_second,
+            titulo_three,
+            content_three,
+            titulo_four,
+            content_four
+        });
+        await fs.writeFile(subPath, JSON.stringify(nuevoSubData, null, 2));
+
+        res.json({ mensaje: "Contenido actualizado correctamente." });
+
+    } catch (err) {
+        console.error("Error al actualizar contenido:", err);
+        res.status(500).json({ error: "Error al actualizar el contenido." });
+    }
+});
+
+app.delete('/api/contenidos/eliminar/:id', async (req, res) => {
+    const contenidoId = parseInt(req.params.id);
+
+    if (!contenidoId || isNaN(contenidoId)) {
+        return res.status(400).json({ error: 'ID inválido' });
+    }
+
+    try {
+        const pool = await sql.connect(dbConfig);
+        
+        const resultSelect = await pool.request()
+            .input('id', sql.Int, contenidoId)
+            .query('SELECT Titulo FROM Contenidos WHERE ContenidoID = @id');
+
+        if (resultSelect.recordset.length === 0) {
+            return res.status(404).json({ error: 'Contenido no encontrado' });
+        }
+
+        const titulo = resultSelect.recordset[0].Titulo;
+
+        await pool.request()
+            .input('id', sql.Int, contenidoId)
+            .query('DELETE FROM Resenas WHERE ContenidoID = @id');
+
+        await pool.request()
+            .input('id', sql.Int, contenidoId)
+            .query('DELETE FROM Favoritos WHERE ContenidoID = @id');
+
+        await pool.request()
+            .input('id', sql.Int, contenidoId)
+            .query('DELETE FROM HistorialPaginas WHERE ContenidoID = @id');
+
+        await pool.request()
+            .input('id', sql.Int, contenidoId)
+            .query('DELETE FROM Contenidos WHERE ContenidoID = @id');
+
+        const contentPath = '../content/page/content.json';
+        const contentData = JSON.parse(await fs.readFile(contentPath, "utf8"));
+        const newContentData = contentData.filter(c => c.titulo.toLowerCase() !== titulo.toLowerCase());
+        await fs.writeFile(contentPath, JSON.stringify(newContentData, null, 2));
+
+        const subPath = '../content/page/subpage_content.json';
+        const subData = JSON.parse(await fs.readFile(subPath, "utf8"));
+        const newSubData = subData.filter(c => c.titulo.toLowerCase() !== titulo.toLowerCase());
+        await fs.writeFile(subPath, JSON.stringify(newSubData, null, 2));
+
+        res.status(200).json({ message: 'Contenido y datos relacionados eliminados correctamente' });
+    } catch (error) {
+        console.error('Error al eliminar contenido:', error);
+        res.status(500).json({ error: 'Error en el servidor' });
     }
 });
 
