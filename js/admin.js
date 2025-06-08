@@ -178,6 +178,37 @@ async function cargarSelect(url, selectId, placeholder) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (!usuario || !usuario.UsuarioID) {
+        alert("Debes de iniciar sesion para ver este apartado.");
+
+        window.location.href = "/index.html";
+        return;
+    }
+
+    try {
+        const res = fetch(`http://localhost:3000/api/perfil/${usuario.UsuarioID}`);
+        if (!res.ok) throw new Error('Error al cargar la información');
+        const data = res.json();
+
+        const { info, stats, resenas, favoritos, historial } = data;
+
+        if (info.EsAdmin) {
+            alert('No eres administrador');
+
+            window.location.href = "/index.html";
+            return;
+        }
+    } catch (error) {
+        console.error('Error al verificar administrador:', error);
+        alert('Error al verificar administrador');
+
+        window.location.href = "/index.html";
+        return;
+    }
+
+    const { info, stats, resenas, favoritos, historial } = data;
+
     mostrarContenidos();
 
     document.getElementById('btnRecargarUsuarios').addEventListener('click', cargarUsuarios);
