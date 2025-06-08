@@ -622,6 +622,28 @@ app.delete('/api/contenidos/eliminar/:id', async (req, res) => {
     }
 });
 
+app.get('/api/tipos', async (req, res) => {
+    try {
+        let pool = await sql.connect(dbConfig);
+        const result = await pool.request().query('SELECT TipoID, NombreTipo FROM TiposContenido ORDER BY TipoID');
+        res.json(result.recordset);
+    } catch (error) {
+        console.error('Error al obtener tipos:', error);
+        res.status(500).json({ error: 'Error en el servidor' });
+    }
+});
+
+app.get('/api/generos', async (req, res) => {
+    try {
+        let pool = await sql.connect(dbConfig);
+        const result = await pool.request().query('SELECT GeneroID, Nombre FROM Generos ORDER BY Nombre');
+        res.json(result.recordset);
+    } catch (error) {
+        console.error('Error al obtener generos:', error);
+        res.status(500).json({ error: 'Error en el servidor' });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Servidor API escuchando en http://localhost:${port}`);
 });
