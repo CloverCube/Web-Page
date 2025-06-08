@@ -227,6 +227,7 @@ async function cargarUsuarios() {
                 <td>${usuario.EsAdmin}</td>
                 <td>${new Date(usuario.FechaRegistro).toLocaleDateString()}</td>
                 <td>
+                   <button class="btn btn-sm btn-success me-1 btnMas" data-id="${usuario.UsuarioID}">Estadisticas</button>
                    <button class="btn btn-sm btn-primary me-1 btnEditar" data-id="${usuario.UsuarioID}">Editar</button>
                    <button class="btn btn-sm btn-danger btnEliminar" data-id="${usuario.UsuarioID}">Eliminar</button>
                 </td>
@@ -240,6 +241,10 @@ async function cargarUsuarios() {
 
         document.querySelectorAll('.btnEditar').forEach(btn => {
             btn.addEventListener('click', mostrarFormularioEdicion);
+        });
+
+        document.querySelectorAll('.btnMas').forEach(btn => {
+            btn.addEventListener('click', mostrarInfoUsuario);
         });
     } catch (error) {
         console.error('Error al cargar usuarios:', error);
@@ -324,5 +329,75 @@ async function guardarEdicionUsuario() {
     } catch (error) {
         alert('Error al actualizar el usuario.');
         console.error(error);
+    }
+}
+
+const modalInfoUsuario = new bootstrap.Modal(document.getElementById('modalInfoUsuario'));
+
+async function mostrarInfoUsuario(e) {
+    const usuarioId = e.target.getAttribute('data-id');
+    const contenedor = document.getElementById('infoUsuarioContenido');
+    contenedor.innerHTML = 'Cargando...';
+
+    try {
+        const res = await fetch(`http://localhost:3000/api/perfil/${usuarioId}`);
+        if (!res.ok) throw new Error('Error al cargar la información');
+        const data = await res.json();
+
+        const { info, stats, resenas, favoritos, historial } = data;
+
+        const html = `
+          <h5>Datos Generales</h5>
+          <ul>
+            <li><strong>ID:</strong> ${info.UsuarioID}</li>
+            <li><strong>Nombre:</strong> ${info.NombreUsuario}</li>
+            <li><strong>Correo:</strong> ${info.Correo}</li>
+            <li><strong>Fecha Registro:</strong> ${new Date(info.FechaRegistro).toLocaleDateString()}</li>
+            <li><strong>Es Admin:</strong> ${info.EsAdmin ? 'Sí' : 'No'}</li>
+          </ul>
+
+          <h5>Estadísticas</h5>
+          <ul>
+            <li><strong>Reseñas:</strong> ${stats.CantidadResenas}</li>
+            <li><strong>Favoritos:</strong> ${stats.CantidadFavoritos}</li>
+            <li><strong>Visitas:</strong> ${stats.CantidadVisitas}</li>
+          </ul>
+
+          <h5>Reseñas Recientes</h5>
+          ${resenas.length === 0 ? '<p>No hay reseñas.</p>' : `
+            <ul>
+              ${resenas.map(r => `
+                <li><strong>${r.Titulo}</strong> - Calificación: ${r.Calificacion} - Fecha: ${new Date(r.FechaReseña).toLocaleDateString()}<br>
+                Comentario: ${r.Comentario}</li>
+              `).join('')}
+            </ul>
+          `}
+
+          <h5>Favoritos</h5>
+          ${favoritos.length === 0 ? '<p>No hay favoritos.</p>' : `
+            <ul>
+              ${favoritos.map(f => `
+                <li><strong>${f.Titulo}</strong> - Agregado: ${new Date(f.FechaAgregado).toLocaleDateString()}</li>
+              `).join('')}
+            </ul>
+          `}
+
+          <h5>Historial de Visitas</h5>
+          ${historial.length === 0 ? '<p>No hay historial.</p>' : `
+            <ul>
+              ${historial.map(h => `
+                <li><strong>${h.Titulo}</strong> - Visitado: ${new Date(h.FechaVisita).toLocaleDateString()}</li>
+              `).join('')}
+            </ul>
+          `}
+        `;
+
+        contenedor.innerHTML = html;
+        modalInfoUsuario.show();
+
+    } catch (error) {
+        contenedor.innerHTML = '<p class="text-danger">Error al cargar la información.</p>';
+        console.error(error);
+        modalInfoUsuario.show();
     }
 }
