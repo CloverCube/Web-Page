@@ -186,43 +186,40 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    try {
-        const res = fetch(`http://localhost:3000/api/perfil/${usuario.UsuarioID}`);
-        if (!res.ok) throw new Error('Error al cargar la información');
-        const data = res.json();
+    fetch(`http://localhost:3000/api/perfil/${usuario.UsuarioID}`)
+        .then(res => {
+            if (!res.ok) throw new Error('Error al cargar la información');
+            return res.json();
+        })
+        .then(data => {
+            const { info } = data;
+            if (!info.EsAdmin) {
+                alert('No eres administrador');
+                window.location.href = "/index.html";
 
-        const { info, stats, resenas, favoritos, historial } = data;
+                return;
+            }
 
-        if (info.EsAdmin) {
-            alert('No eres administrador');
+            mostrarContenidos();
 
+            document.getElementById('btnRecargarUsuarios').addEventListener('click', cargarUsuarios);
+            cargarUsuarios();
+
+            document.getElementById('editarUsuarioForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await guardarEdicionUsuario();
+            });
+
+            cargarSelect('http://localhost:3000/api/tipos', 'tipoID', 'Seleccionar tipo...');
+            cargarSelect('http://localhost:3000/api/generos', 'generoID', 'Seleccionar género...');
+            cargarSelect('http://localhost:3000/api/tipos', 'editTipoID', 'Seleccionar tipo...');
+            cargarSelect('http://localhost:3000/api/generos', 'editGeneroID', 'Seleccionar género...');
+        })
+        .catch(error => {
+            console.error('Error al verificar administrador:', error);
+            alert('Error al verificar administrador');
             window.location.href = "/index.html";
-            return;
-        }
-    } catch (error) {
-        console.error('Error al verificar administrador:', error);
-        alert('Error al verificar administrador');
-
-        window.location.href = "/index.html";
-        return;
-    }
-
-    const { info, stats, resenas, favoritos, historial } = data;
-
-    mostrarContenidos();
-
-    document.getElementById('btnRecargarUsuarios').addEventListener('click', cargarUsuarios);
-    cargarUsuarios();
-
-    document.getElementById('editarUsuarioForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        await guardarEdicionUsuario();
-    });
-
-    cargarSelect('http://localhost:3000/api/tipos', 'tipoID', 'Seleccionar tipo...');
-    cargarSelect('http://localhost:3000/api/generos', 'generoID', 'Seleccionar género...');
-    cargarSelect('http://localhost:3000/api/tipos', 'editTipoID', 'Seleccionar tipo...');
-    cargarSelect('http://localhost:3000/api/generos', 'editGeneroID', 'Seleccionar género...');
+        });
 });
 
 async function cargarUsuarios() {
