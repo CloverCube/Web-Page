@@ -161,3 +161,37 @@ btnAgregar.addEventListener('click', () => {
         btnAgregar.textContent = 'Agregar';
     }
 });
+
+async function cargarSelect(url, selectId, placeholder) {
+    try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Error al cargar datos');
+        const data = await res.json();
+        const select = document.getElementById(selectId);
+
+        select.innerHTML = '';
+
+        const optionPlaceholder = document.createElement('option');
+        optionPlaceholder.value = '';
+        optionPlaceholder.textContent = placeholder;
+        optionPlaceholder.disabled = true;
+        optionPlaceholder.selected = true;
+        select.appendChild(optionPlaceholder);
+
+        data.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item[Object.keys(item)[0]];
+            option.textContent = item.NombreGenero || item.NombreTipo || "Valor desconocido.";
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error cargando select:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    cargarSelect('http://localhost:3000/api/tipos', 'tipoID', 'Seleccionar tipo...');
+    cargarSelect('http://localhost:3000/api/generos', 'generoID', 'Seleccionar género...');
+    cargarSelect('http://localhost:3000/api/tipos', 'editTipoID', 'Seleccionar tipo...');
+    cargarSelect('http://localhost:3000/api/generos', 'editGeneroID', 'Seleccionar género...');
+});
