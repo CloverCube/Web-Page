@@ -578,7 +578,7 @@ app.delete('/api/contenidos/eliminar/:id', async (req, res) => {
 
     try {
         const pool = await sql.connect(dbConfig);
-        
+
         const resultSelect = await pool.request()
             .input('id', sql.Int, contenidoId)
             .query('SELECT Titulo FROM Contenidos WHERE ContenidoID = @id');
