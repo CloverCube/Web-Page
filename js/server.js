@@ -1,6 +1,7 @@
 const express = require("express");
 const sql = require("mssql");
 const cors = require("cors");
+const fs = require("fs").promises;
 
 const app = express();
 const port = 3000;
@@ -377,6 +378,65 @@ app.post("/api/historial/insert", async (req, res) => {
     } catch (err) {
         console.error("Error al insertar historial:", err);
         res.status(500).json({ error: "Error interno del servidor." });
+    }
+});
+
+app.post("/api/contenidos/nuevo", async (req, res) => {
+    const {
+        titulo, descripcion, tipoID, generoID, fechaLanzamiento, imagenURL,
+        PuntoUno, ContenidoPuntoUno,
+        PuntoDos, ContenidoPuntoDos,
+        PuntoTres, ContenidoPuntoTres
+    } = req.body;
+
+    if (!titulo || !descripcion || !tipoID || !generoID || !fechaLanzamiento) {
+        return res.status(400).json({ error: "Datos incompletos" });
+    }
+
+    try {
+        const contentPath = "../content/page/content.json";
+        const contentData = JSON.parse(await fs.readFile(contentPath, "utf8"));
+        contentData.push({ titulo, imagen: imagenURL });
+        await fs.writeFile(contentPath, JSON.stringify(contentData, null, 2));
+
+        const subContentPath = "../content/page/subpage_content.json";
+        const subContentData = JSON.parse(await fs.readFile(subContentPath, "utf8"));
+        subContentData.push({
+            titulo,
+            titulo_second: PuntoUno,
+            content_second: ContenidoPuntoUno,
+            titulo_three: PuntoDos,
+            content_three: ContenidoPuntoDos,
+            titulo_four: PuntoTres,
+            content_four: ContenidoPuntoTres
+        });
+        await fs.writeFile(subContentPath, JSON.stringify(subContentData, null, 2));
+
+        const pool = await sql.connect(dbConfig);
+
+        const check = await pool.request()
+            .input("titulo", sql.NVarChar, titulo)
+            .query("SELECT COUNT(*) as total FROM Contenidos WHERE Titulo = @titulo");
+
+        if (check.recordset[0].total > 0) {
+            return res.status(409).json({ error: "Este título ya existe en la base de datos." });
+        }
+
+        await pool.request()
+            .input("titulo", sql.NVarChar, titulo)
+            .input("descripcion", sql.NVarChar, descripcion)
+            .input("tipoID", sql.Int, tipoID)
+            .input("generoID", sql.Int, generoID)
+            .input("fecha", sql.Date, fechaLanzamiento)
+            .query(`
+                INSERT INTO Contenidos (Titulo, Descripcion, TipoID, GeneroID, FechaLanzamiento, Likes)
+                VALUES (@titulo, @descripcion, @tipoID, @generoID, @fecha, 0)
+            `);
+
+        res.json({ mensaje: "Contenido creado con éxito." });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Error al guardar contenido." });
     }
 });
 
