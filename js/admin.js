@@ -193,6 +193,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnRecargarUsuarios').addEventListener('click', cargarUsuarios);
     cargarUsuarios();
 
+    document.getElementById('editarUsuarioForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await guardarEdicionUsuario();
+    });
+
     cargarSelect('http://localhost:3000/api/tipos', 'tipoID', 'Seleccionar tipo...');
     cargarSelect('http://localhost:3000/api/generos', 'generoID', 'Seleccionar género...');
     cargarSelect('http://localhost:3000/api/tipos', 'editTipoID', 'Seleccionar tipo...');
@@ -215,29 +220,109 @@ async function cargarUsuarios() {
         usuarios.forEach(usuario => {
             const fila = document.createElement('tr');
 
-            let rol = "Usuario";
-
-            if (usuario.EsAdmin) {
-                rol = "Administrador";
-            }
-
             fila.innerHTML = `
                 <td>${usuario.UsuarioID}</td>
                 <td>${usuario.NombreUsuario}</td>
                 <td>${usuario.Correo}</td>
-                <td>${rol}</td>
+                <td>${usuario.EsAdmin}</td>
                 <td>${new Date(usuario.FechaRegistro).toLocaleDateString()}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary me-1">Editar</button>
-                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                   <button class="btn btn-sm btn-primary me-1 btnEditar" data-id="${usuario.UsuarioID}">Editar</button>
+                   <button class="btn btn-sm btn-danger btnEliminar" data-id="${usuario.UsuarioID}">Eliminar</button>
                 </td>
             `;
             tablaBody.appendChild(fila);
         });
 
+        document.querySelectorAll('.btnEliminar').forEach(btn => {
+            btn.addEventListener('click', eliminarUsuario);
+        });
+
+        document.querySelectorAll('.btnEditar').forEach(btn => {
+            btn.addEventListener('click', mostrarFormularioEdicion);
+        });
     } catch (error) {
         console.error('Error al cargar usuarios:', error);
         const tablaBody = document.getElementById('tablaUsuarios');
         tablaBody.innerHTML = '<tr><td colspan="6" class="text-danger text-center">Error al cargar los usuarios.</td></tr>';
+    }
+}
+
+async function eliminarUsuario(e) {
+    const id = e.target.getAttribute('data-id');
+    if (!confirm('¿Estás seguro de eliminar este usuario?')) return;
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/usuarios/${id}`, {
+            method: 'DELETE',
+        });
+        if (response.ok) {
+            alert('Usuario eliminado correctamente.');
+            cargarUsuarios();
+        } else {
+            alert('Error al eliminar usuario.');
+        }
+    } catch (error) {
+        console.error('Error al eliminar usuario:', error);
+        alert('Error al eliminar usuario.');
+    }
+}
+
+const modalEditarUsuario = new bootstrap.Modal(document.getElementById('modalEditarUsuario'));
+
+
+async function mostrarFormularioEdicion(e) {
+    const id = e.target.getAttribute('data-id');
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/perfil/${id}`);
+        if (!response.ok) throw new Error('No se encontró el usuario');
+        const usuario = await response.json();
+
+        document.getElementById('editUsuarioID').value = usuario.info.UsuarioID;
+        document.getElementById('editNombreUsuario').value = usuario.info.NombreUsuario;
+        document.getElementById('editCorreo').value = usuario.info.Correo;
+        document.getElementById('editRol').value = usuario.info.EsAdmin;
+
+        modalEditarUsuario.show();
+
+    } catch (error) {
+        alert('Error al cargar los datos del usuario.');
+        console.error(error);
+    }
+}
+
+function ocultarFormularioEdicion() {
+    document.getElementById('formEditarUsuario').style.display = 'none';
+}
+
+async function guardarEdicionUsuario() {
+    const id = document.getElementById('editUsuarioID').value;
+    const nombre = document.getElementById('editNombreUsuario').value.trim();
+    const correo = document.getElementById('editCorreo').value.trim();
+    const rol = document.getElementById('editRol').value;
+
+    if (!nombre || !correo || !rol) {
+        alert('Por favor, completa todos los campos.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/usuarios/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ NombreUsuario: nombre, Correo: correo, EsAdmin: rol }),
+        });
+
+        if (response.ok) {
+            alert('Usuario actualizado correctamente.');
+            modalEditarUsuario.hide();
+            cargarUsuarios();
+        } else {
+            alert('Error al actualizar el usuario.');
+        }
+    } catch (error) {
+        alert('Error al actualizar el usuario.');
+        console.error(error);
     }
 }

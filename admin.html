@@ -55,7 +55,7 @@
                             <th>ID</th>
                             <th>Nombre de Usuario</th>
                             <th>Correo Electrónico</th>
-                            <th>Rol</th>
+                            <th>Admin</th>
                             <th>Fecha de Registro</th>
                             <th>Acciones</th>
                         </tr>
@@ -250,6 +250,39 @@
 </div>
 
 <div id="footer-placeholder"></div>
+
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Puedes ajustar tamaño aquí -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarUsuarioLabel">Editar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editarUsuarioForm">
+                    <input type="hidden" id="editUsuarioID" />
+                    <div class="mb-3">
+                        <label for="editNombreUsuario" class="form-label">Nombre de Usuario</label>
+                        <input type="text" id="editNombreUsuario" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCorreo" class="form-label">Correo Electrónico</label>
+                        <input type="email" id="editCorreo" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRol" class="form-label">Rol</label>
+                        <select id="editRol" class="form-select" required>
+                            <option value="0">Usuario</option>
+                            <option value="1">Administrador</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn btn-secondary ms-2" data-bs-dismiss="modal">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="/bootstrap/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="/js/app.js"></script>

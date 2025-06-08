@@ -258,6 +258,81 @@ app.get('/api/usuarios', async (req, res) => {
     }
 });
 
+app.put('/api/usuarios/:id', async (req, res) => {
+    const id = req.params.id;
+    const { NombreUsuario, Correo, EsAdmin } = req.body;
+
+    if (!NombreUsuario || !Correo || !EsAdmin) {
+        return res.status(400).json({ error: 'Faltan campos requeridos' });
+    }
+
+    try {
+        const pool = await sql.connect(dbConfig);
+        const result = await pool.request()
+            .input('id', sql.Int, id)
+            .input('NombreUsuario', sql.VarChar(255), NombreUsuario)
+            .input('Correo', sql.VarChar(255), Correo)
+            .input('EsAdmin', sql.Int, EsAdmin)
+            .query(`UPDATE Usuarios SET NombreUsuario = @NombreUsuario, Correo = @Correo, EsAdmin = @EsAdmin WHERE UsuarioID = @id`);
+
+        if (result.rowsAffected[0] === 0) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        res.json({ message: 'Usuario actualizado correctamente' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar usuario' });
+    }
+});
+
+app.delete('/api/usuarios/:id', async (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    if (isNaN(id)) return res.status(400).json({ error: 'ID inválido' });
+
+    try {
+        const pool = await sql.connect(dbConfig);
+        const transaction = new sql.Transaction(pool);
+
+        await transaction.begin();
+
+        try {
+            let request = new sql.Request(transaction);
+            await request.input('id', sql.Int, id)
+                .query('DELETE FROM Resenas WHERE UsuarioID = @id');
+
+            request = new sql.Request(transaction);
+            await request.input('id', sql.Int, id)
+                .query('DELETE FROM Favoritos WHERE UsuarioID = @id');
+
+            request = new sql.Request(transaction);
+            await request.input('id', sql.Int, id)
+                .query('DELETE FROM HistorialPaginas WHERE UsuarioID = @id');
+
+            request = new sql.Request(transaction);
+            const result = await request.input('id', sql.Int, id)
+                .query('DELETE FROM Usuarios WHERE UsuarioID = @id');
+
+            await transaction.commit();
+
+            if (result.rowsAffected[0] === 0) {
+                return res.status(404).json({ error: 'Usuario no encontrado' });
+            }
+
+            res.json({ message: 'Usuario eliminado correctamente' });
+
+        } catch (err) {
+            await transaction.rollback();
+            console.error(err);
+            res.status(500).json({ error: 'Error al eliminar usuario y datos relacionados' });
+        }
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al conectar con la base de datos' });
+    }
+});
+
 app.get('/api/perfil/:usuarioId', async (req, res) => {
     try {
         const pool = await sql.connect(dbConfig);
