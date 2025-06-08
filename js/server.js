@@ -636,7 +636,7 @@ app.get('/api/tipos', async (req, res) => {
 app.get('/api/generos', async (req, res) => {
     try {
         let pool = await sql.connect(dbConfig);
-        const result = await pool.request().query('SELECT GeneroID, Nombre FROM Generos ORDER BY Nombre');
+        const result = await pool.request().query('SELECT GeneroID, NombreGenero FROM Generos ORDER BY GeneroID');
         res.json(result.recordset);
     } catch (error) {
         console.error('Error al obtener generos:', error);
