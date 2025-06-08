@@ -225,10 +225,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     } else {
         areaResena.innerHTML = `
-            <form id="form-resena">
-                <input type="number" id="calificacion" placeholder="Calificación (1-10)" min="1" max="10" required><br>
-                <textarea id="comentario" placeholder="Escribe tu reseña..." required></textarea><br>
-                <button type="submit">Enviar Reseña</button>
+            <form id="form-resena" class="card shadow-sm p-4">
+                <div class="mb-3">
+                    <label for="calificacion" class="form-label">Calificación (1-10)</label>
+                    <input type="number" class="form-control" id="calificacion" min="1" max="10" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="comentario" class="form-label">Comentario</label>
+                    <textarea class="form-control" id="comentario" rows="3" placeholder="Escribe tu reseña..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-dark">Enviar Reseña</button>
             </form>
         `;
 
@@ -257,9 +265,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     lista.innerHTML = '';
     resenas.forEach(r => {
         const div = document.createElement('div');
-        div.innerHTML = `<strong>${r.NombreUsuario}</strong> calificó con <b>${r.Calificacion}/10</b><br>
-                                 "${r.Comentario}"<br>
-                                 <small>${new Date(r.FechaReseña).toLocaleString()}</small><hr>`;
+        div.className = "card mb-3 shadow-sm";
+
+        div.innerHTML = `
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-person-circle fs-3 me-2"></i>
+                <h5 class="card-title mb-0">${r.NombreUsuario}</h5>
+            </div>
+            <h6 class="card-subtitle mb-2 text-muted">Calificación: ${r.Calificacion}/10</h6>
+            <p class="card-text">"${r.Comentario}"</p>
+            <p class="card-text"><small class="text-muted">Publicado el ${new Date(r.FechaReseña).toLocaleString()}</small></p>
+        </div>
+    `;
         lista.appendChild(div);
     });
 });
